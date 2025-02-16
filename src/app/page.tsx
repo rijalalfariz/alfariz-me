@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, ChevronDown } from 'lucide-react';
+import { Mail, ChevronDown } from 'lucide-react';
 
 const PortfolioWebsite = () => {
   const [activeSection, setActiveSection] = useState('hero');
@@ -100,7 +100,7 @@ const PortfolioWebsite = () => {
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, I'm John Doe</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, Im John Doe</h1>
           <p className="text-xl md:text-2xl mb-8">Full Stack Developer & UI/UX Designer</p>
           <div className="flex justify-center space-x-4">
             <a href="#contact" className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200">Get in Touch</a>
@@ -122,7 +122,7 @@ const PortfolioWebsite = () => {
             </div>
             <div>
               <p className="text-lg text-gray-600 mb-6">
-                I'm a passionate developer with over 5 years of experience in creating beautiful and functional web applications. 
+                Im a passionate developer with over 5 years of experience in creating beautiful and functional web applications. 
                 My expertise spans across front-end and back-end development, with a special focus on creating intuitive user experiences.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -190,7 +190,7 @@ const PortfolioWebsite = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Message</label>
-                  <textarea rows="4" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                  <textarea rows={4} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                 </div>
                 <button type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-indigo-700 transition-colors duration-200">
                   Send Message
@@ -202,11 +202,9 @@ const PortfolioWebsite = () => {
                 <h3 className="text-xl font-semibold mb-4">Connect With Me</h3>
                 <div className="space-y-4">
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
-                    <Github className="w-6 h-6" />
                     <span>github.com/johndoe</span>
                   </a>
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
-                    <Linkedin className="w-6 h-6" />
                     <span>linkedin.com/in/johndoe</span>
                   </a>
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
