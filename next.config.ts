@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // basePath: "/alfariz-me",
+  basePath: "/alfariz-me",
   output: "export",
-  // reactStrictMode: true,
+  reactStrictMode: true,
 };
 
-export default nextConfig;
+// export default nextConfig;
+module.exports = nextConfig;
