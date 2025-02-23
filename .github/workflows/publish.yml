@@ -34,9 +34,12 @@ jobs:
 
       - name: Build with Next.js 🏗️
         run: |
-          npx next build
-          echo "Checking out directory..."
-          ls -la .next
+          echo "Checking out directory before build..."
+          ls -la
+          npx next build --debug
+          npx next info
+          echo "Checking out directory after build..."
+          ls -la
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
