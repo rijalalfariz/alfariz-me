@@ -101,7 +101,7 @@ const PortfolioWebsite = () => {
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, Im M Rijal Al Fariz3</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, Im M Rijal Al Fariz4</h1>
           <p className="text-xl md:text-2xl mb-8">Full Stack Developer & UI/UX Designer</p>
           <div className="flex justify-center space-x-4">
             <a href="#contact" className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200">Get in Touch</a>
