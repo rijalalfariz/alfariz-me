@@ -35,7 +35,7 @@ jobs:
       - name: Build with Next.js 🏗️
         run: |
           rm -rf .next out
-          npm clean-cache --force
+          npm clean cache --force
           npm install
           npx next build
           ls -la
