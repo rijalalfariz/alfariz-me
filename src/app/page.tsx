@@ -119,7 +119,7 @@ const PortfolioWebsite = () => {
           <h2 className="text-4xl font-bold text-center mb-12">About Me</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Image src="/api/placeholder/500/500" alt="Profile" className="rounded-lg shadow-lg" />
+              <Image src="https://picsum.photos/500" alt="Profile" className="rounded-lg shadow-lg" />
             </div>
             <div>
               <p className="text-lg text-gray-600 mb-6">
@@ -156,7 +156,7 @@ const PortfolioWebsite = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                <Image src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                <Image src={project.image||'https://picsum.photos/500'} alt={project.title} className="w-full h-48 object-cover" />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                   <p className="text-gray-600 mb-4">{project.description}</p>
