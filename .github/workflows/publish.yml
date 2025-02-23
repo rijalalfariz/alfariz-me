@@ -34,13 +34,13 @@ jobs:
 
       - name: Build with Next.js 🏗️
         run: |
+          rm -rf .next out
+          npm clean-cache --force
+          npm install
           npx next build
           ls -la
           echo "Checking out directory..."
           ls -la out || echo "out directory not found"
-
-      - name: list dir.. 🏗️
-        run: ls -la
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
