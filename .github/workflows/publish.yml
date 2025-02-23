@@ -34,17 +34,14 @@ jobs:
 
       - name: Build with Next.js 🏗️
         run: |
-          rm -rf .next out
-          npm ci
           npx next build
-          npx next --version
           echo "Checking out directory..."
-          ls -la out || echo "out directory not found"
+          ls -la .next
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: ./.next/static
 
   deploy:
     environment:
