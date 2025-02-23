@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: "/alfariz-me",
+  // basePath: "/alfariz-me",
   output: "export",
   reactStrictMode: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
         {
             protocol: 'https',
