@@ -102,7 +102,7 @@ const PortfolioWebsite = () => {
       <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, Im M Rijal Al Fariz4</h1>
-          <p className="text-xl md:text-2xl mb-8">Full Stack Developer & UI/UX Designer</p>
+          <p className="text-xl md:text-2xl mb-8">Web Developer</p>
           <div className="flex justify-center space-x-4">
             <a href="#contact" className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200">Get in Touch</a>
             <a href="#projects" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transition-all duration-200">View Work</a>
@@ -124,24 +124,24 @@ const PortfolioWebsite = () => {
             <div>
               <p className="text-lg text-gray-600 mb-6">
                 Im a passionate developer with over 5 years of experience in creating beautiful and functional web applications. 
-                My expertise spans across front-end and back-end development, with a special focus on creating intuitive user experiences.
+                My expertise spans across front-end (mostly) and back-end development, with a special focus on creating intuitive user experiences.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">Frontend</h3>
-                  <p className="text-gray-600">React, Vue, Angular</p>
+                  <p className="text-gray-600">React, jQuery(js-ts), Native HTML-CSS-JS</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">Backend</h3>
-                  <p className="text-gray-600">Node.js, Python, Java</p>
+                  <p className="text-gray-600">PHP(Laravel, Silverstripe), Python(Django)</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">Database</h3>
-                  <p className="text-gray-600">MongoDB, PostgreSQL</p>
+                  <p className="text-gray-600">MySQL, PostgreSQL</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-lg mb-2">Tools</h3>
-                  <p className="text-gray-600">Git, Docker, AWS</p>
+                  <p className="text-gray-600">Git, AI-tools(Claude, Builder.io, Copilot)</p>
                 </div>
               </div>
             </div>
@@ -203,20 +203,20 @@ const PortfolioWebsite = () => {
                 <h3 className="text-xl font-semibold mb-4">Connect With Me</h3>
                 <div className="space-y-4">
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
-                    <span>github.com/johndoe</span>
+                    <span>github.com/rijalalfariz</span>
                   </a>
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
-                    <span>linkedin.com/in/johndoe</span>
+                    <span>linkedin.com/in/rijaal_alfariz</span>
                   </a>
                   <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
                     <Mail className="w-6 h-6" />
-                    <span>john.doe@example.com</span>
+                    <span>rijalfariz@gmail.com</span>
                   </a>
                 </div>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Location</h3>
-                <p className="text-gray-600">San Francisco, California</p>
+                <p className="text-gray-600">Surabaya, Indonesia</p>
               </div>
             </div>
           </div>
@@ -226,7 +226,7 @@ const PortfolioWebsite = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; 2025 John Doe. All rights reserved.</p>
+          <p>&copy; 2025 M Rijal Al Fariz - Hire Me!.</p>
         </div>
       </footer>
     </div>
