@@ -49,7 +49,7 @@ const PortfolioWebsite = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white shadow-md z-50">
+      <nav className="fixed top-0 w-full bg-[var(--background)] shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -104,8 +104,8 @@ const PortfolioWebsite = () => {
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Hi, Im M Rijal Al Fariz4</h1>
           <p className="text-xl md:text-2xl mb-8">Web Developer</p>
           <div className="flex justify-center space-x-4">
-            <a href="#contact" className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200">Get in Touch</a>
-            <a href="#projects" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transition-all duration-200">View Work</a>
+            <a href="#contact" className="bg-[var(--background)] text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200">Get in Touch</a>
+            <a href="#projects" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-[var(--background)] hover:text-indigo-600 transition-all duration-200">View Work</a>
           </div>
           <div className="mt-12">
             <ChevronDown className="w-8 h-8 mx-auto animate-bounce" />
@@ -114,7 +114,7 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white">
+      <section id="about" className="py-20 bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">About Me</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -155,7 +155,7 @@ const PortfolioWebsite = () => {
           <h2 className="text-4xl font-bold text-center mb-12">Featured Projects</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+              <div key={index} className="bg-[var(--background)] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <Image src={'https://picsum.photos/300'} alt={project.title} className="w-full h-48 object-cover" width={300} height={300} />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
@@ -175,7 +175,7 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
+      <section id="contact" className="py-20 bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Get in Touch</h2>
           <div className="grid md:grid-cols-2 gap-12">
