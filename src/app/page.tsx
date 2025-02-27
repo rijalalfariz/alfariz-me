@@ -111,6 +111,9 @@ const PortfolioWebsite = () => {
             <ChevronDown className="w-8 h-8 mx-auto animate-bounce" />
           </div>
         </div>
+        <div>
+          <Image src={'/img/me.png'} width={200} height={500} alt='me'/>
+        </div>
       </section>
 
       {/* About Section */}
