@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Mail, ChevronDown } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Image from 'next/image';
 
 const PortfolioWebsite = () => {
