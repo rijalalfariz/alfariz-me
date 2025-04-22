@@ -87,7 +87,7 @@ const PortfolioWebsite = () => {
         alt="wave1"
         width={200}
         height={200}
-        className="min-w-[120dvw] absolute -top-[50dvh] -left-10 z-0 paralax"
+        className="min-w-[120dvw] absolute -top-[70dvh] -left-10 z-0 paralax"
         data-ty='0.3'
         data-tx='-0.2'
       />
@@ -145,7 +145,7 @@ const PortfolioWebsite = () => {
         alt="wave2"
         width={200}
         height={200}
-        className="min-w-[700px] absolute top-[600px] -left-20 z-0 paralax"
+        className="min-w-[700px] absolute top-[550px] -left-20 z-0 paralax"
         data-ty='0.1'
         data-tx='0.5'
       />
