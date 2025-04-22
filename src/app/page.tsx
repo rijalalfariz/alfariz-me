@@ -81,7 +81,7 @@ const PortfolioWebsite = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#3f1a84] relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#000000] relative overflow-x-hidden">
       <Image
         src="/space/Wave1.svg"
         alt="wave1"
@@ -121,7 +121,7 @@ const PortfolioWebsite = () => {
         width={200}
         height={200}
         className="min-w-[390px] absolute -top-[100px] left-20 z-0 paralax"
-        data-ty='0.4'
+        data-ty='0.6'
         data-tx='-0.2'
       />
       <Image
