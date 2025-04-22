@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  /* --background: #ffffff;
+  --foreground: #171717; */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +20,9 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.paralax {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
 }
