@@ -162,7 +162,7 @@ const PortfolioWebsite = () => {
         alt="stars"
         width={200}
         height={200}
-        className="min-w-[90dvw] absolute top-[130dvh] left-10 z-0 paralax"
+        className="min-w-[90dvw] absolute top-[150dvh] left-10 z-0 paralax"
         data-ty='0.3'
       />
       <Image
@@ -172,6 +172,14 @@ const PortfolioWebsite = () => {
         height={200}
         className="min-w-[90dvw] absolute top-[1dvh] left-20 z-0 paralax"
         data-ty='0.4'
+      />
+      <Image
+        src="/space/small-stars.svg"
+        alt="stars"
+        width={200}
+        height={200}
+        className="min-w-[90dvw] absolute top-[270dvh] left-10 z-0 paralax"
+        data-ty='0.3'
       />
       <Image
         src="/space/small-meteor.svg"
