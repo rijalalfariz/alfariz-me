@@ -205,7 +205,7 @@ const PortfolioWebsite = () => {
         alt="wave2"
         width={200}
         height={200}
-        className="min-w-[250px] absolute top-[2500px] left-[500px] z-0 paralax"
+        className="min-w-[250px] absolute top-[2700px] left-[400px] z-0 paralax"
         data-ty='0.1'
         data-tx='0.2'
       />
@@ -325,7 +325,7 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Projects Section */}
-{/* 
+      {/* 
       <section className="h-[calc(300dvh+500px)]">
         <div className="overflow-hidden flex items-center bg-white sticky top-[200px]">
           <div
@@ -346,7 +346,7 @@ const PortfolioWebsite = () => {
         </div>
       </section> */}
 
-      <section id="projects" className={`py-20 h-[1800px]`}>
+      <section id="projects" className={`pt-20 pb-[300px] h-[2200px]`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sticky top-[50px]">
           <h2 className="text-4xl font-bold text-center mb-12">Featured Projects</h2>
           <div className="flex items-center">
@@ -357,7 +357,7 @@ const PortfolioWebsite = () => {
             >
               {projects.map((project, index) => (
                 <div key={index} className="relative bg-[var(--background)] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-[350px]">
-                  <Image src={project.image} alt={project.title} className={"h-48 object-cover min-w-[350px] "+project.imageClass} width={300} height={300} />
+                  <Image src={project.image} alt={project.title} className={"h-48 object-cover min-w-[350px] " + project.imageClass} width={300} height={300} />
                   <div className="p-6 h-[300px] [scrollbar-width:none] overflow-y-auto mb-px">
                     <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                     <p className="text-gray-600 mb-4">{project.description}</p>
@@ -378,40 +378,28 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-[var(--background)]">
+      <section id="contact" className="pt-[200px] pb-20 bg-[#56423d] relative">
+        <Image
+          src="/space/mars.svg"
+          alt="mars"
+          width={200}
+          height={200}
+          className="w-full absolute -top-[300px] left-0 z-0"
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-12">Get in Touch</h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Name</label>
-                  <input type="text" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <input type="email" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Message</label>
-                  <textarea rows={4} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                </div>
-                <button type="submit" className="w-full bg-indigo-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-indigo-700 transition-colors duration-200">
-                  Send Message
-                </button>
-              </form>
-            </div>
-            <div className="space-y-6">
+          <div className="grid md:grid-cols-[min-content_min-content] gap-20 justify-center auto-cols-min">
+            <div className="space-y-6 w-fit">
               <div>
-                <h3 className="text-xl font-semibold mb-4">Connect With Me</h3>
+                <h3 className="text-xl font-semibold mb-4">Professionals</h3>
                 <div className="space-y-4">
-                  <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
                     <span>github.com/rijalalfariz</span>
                   </a>
-                  <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
                     <span>linkedin.com/in/rijaal_alfariz</span>
                   </a>
-                  <a href="#" className="flex items-center space-x-3 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
                     <Mail className="w-6 h-6" />
                     <span>rijalfariz@gmail.com</span>
                   </a>
@@ -419,7 +407,24 @@ const PortfolioWebsite = () => {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">Location</h3>
-                <p className="text-gray-600">Surabaya, Indonesia</p>
+                <p className="">Surabaya, Indonesia</p>
+              </div>
+            </div>
+            <div className="space-y-6 w-fit">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Community</h3>
+                <div className="space-y-4">
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
+                    <span>+62 858-6151-3613</span>
+                  </a>
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
+                    <span>rijaal_alfariz</span>
+                  </a>
+                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
+                    <Mail className="w-6 h-6" />
+                    <span>rijalfariz@gmail.com</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -427,7 +432,7 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
+      <footer className="bg-[#2f4858] text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p>&copy; 2025 M Rijal Al Fariz - Hire Me!.</p>
         </div>
