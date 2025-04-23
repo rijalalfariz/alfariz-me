@@ -143,7 +143,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/small-stars.svg"
-        alt="wave1"
+        alt="stars"
         width={200}
         height={200}
         className="min-w-[90dvw] absolute top-[5dvh] left-10 z-0 paralax"
@@ -151,7 +151,23 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/medium-stars.svg"
-        alt="wave2"
+        alt="stars"
+        width={200}
+        height={200}
+        className="min-w-[90dvw] absolute top-[120dvh] left-20 z-0 paralax"
+        data-ty='0.4'
+      />
+      <Image
+        src="/space/small-stars.svg"
+        alt="stars"
+        width={200}
+        height={200}
+        className="min-w-[90dvw] absolute top-[130dvh] left-10 z-0 paralax"
+        data-ty='0.3'
+      />
+      <Image
+        src="/space/medium-stars.svg"
+        alt="stars"
         width={200}
         height={200}
         className="min-w-[90dvw] absolute top-[1dvh] left-20 z-0 paralax"
@@ -159,7 +175,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/small-meteor.svg"
-        alt="wave2"
+        alt="meteor"
         width={200}
         height={200}
         className="min-w-[390px] absolute -top-[100px] left-20 z-0 paralax"
@@ -168,7 +184,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/planet1.svg"
-        alt="wave2"
+        alt="planet1"
         width={0}
         height={0}
         className="min-w-[50px] absolute top-[500px] left-[600px] z-0 paralax"
@@ -176,7 +192,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/planet2.svg"
-        alt="wave2"
+        alt="planet2"
         width={200}
         height={200}
         className="min-w-[700px] absolute top-[100px] left-10 z-0 paralax"
@@ -184,7 +200,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/rocket.svg"
-        alt="wave2"
+        alt="rocket"
         width={200}
         height={200}
         className="min-w-[700px] absolute top-[550px] -left-20 z-0 paralax"
@@ -193,7 +209,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/satelite.svg"
-        alt="wave2"
+        alt="satelite"
         width={200}
         height={200}
         className="min-w-[400px] absolute top-[900px] left-[180px] z-0 paralax"
@@ -202,7 +218,7 @@ const PortfolioWebsite = () => {
       />
       <Image
         src="/space/astronaut.svg"
-        alt="wave2"
+        alt="astronaut"
         width={200}
         height={200}
         className="min-w-[250px] absolute top-[2700px] left-[400px] z-0 paralax"
