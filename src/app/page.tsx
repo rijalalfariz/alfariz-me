@@ -378,7 +378,7 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="pt-[200px] pb-20 bg-[#56423d] relative">
+      <section id="contact" className="pt-[15dvw] pb-20 bg-[#56423d] relative">
         <Image
           src="/space/mars.svg"
           alt="mars"
