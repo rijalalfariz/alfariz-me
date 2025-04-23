@@ -59,29 +59,71 @@ const PortfolioWebsite = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const slider = document.getElementById('scroll-slider');
+    const section = slider?.parentElement?.parentElement?.parentElement;
+
+    const handleScrollSliders = () => {
+      if (!slider || !section) return;
+
+      const scrollStart = section.offsetTop;
+      const scrollEnd = scrollStart + section.offsetHeight;
+      const scrollY = window.scrollY;
+
+      console.log('scrollStart', scrollStart)
+      console.log('scrollEnd', scrollEnd)
+      console.log('scrollY', scrollY)
+
+      if (scrollY >= scrollStart && scrollY <= scrollEnd) {
+        const scrollProgress = scrollY - scrollStart;
+        slider.style.transform = `translateX(-${scrollProgress}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollSliders);
+    return () => window.removeEventListener('scroll', handleScrollSliders);
+  }, []);
+
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with real-time inventory management",
-      tags: ["React", "Node.js", "MongoDB"],
-      image: "/api/placeholder/400/300"
+      title: "Logistic & Transport Tender Management Platform",
+      description: "A full-stack e-commerce solution for managing Tenders and Logistics between Shippers and Transporters. This project includes  including Admin backoffice for managing users & their access, activity, and monitor Tender data",
+      tags: ["PHP-Silverstripe", "jQuery", "HTML-CSS", "File management", "PDF generator", "Mailing & Notifications"],
+      image: "/project/logistic.svg",
+      imageClass: "bg-white",
     },
     {
-      title: "AI Image Generator",
-      description: "Web application that generates unique artwork using machine learning",
-      tags: ["Python", "TensorFlow", "AWS"],
-      image: "/api/placeholder/400/300"
+      title: "Logistic Ads Management Platform",
+      description: "Web application to bridge between Sellers and Buyers in the Logistic industry. This project includes Admin backoffice for managing users access, activity, and monitor Ads data & profit. Major features includes dynamic & customizable form fields for Ads data (CMS-like), that needs tricky ERD design",
+      tags: ["PHP-Silverstripe", "jQuery", "HTML-CSS", "Dynamic form fields", "Async functions & callback", "File management"],
+      image: "/project/seller_buyer.svg",
+      imageClass: "bg-white",
     },
     {
-      title: "Financial Dashboard",
-      description: "Real-time financial data visualization and analysis platform",
-      tags: ["Vue.js", "D3.js", "Firebase"],
-      image: "/api/placeholder/400/300"
+      title: "Logistic Partition Product Management",
+      description: "A platform for managing Truck Partition products. My part is focusing on managing product discounts with certain rules that set by Admin.",
+      tags: ["Node.js", "React.js", "Next.js", "Async functions & callback"],
+      image: "/project/truck_part.svg",
+      imageClass: "bg-white",
+    },
+    {
+      title: "Face-recognition Attendance System",
+      description: "Real-time attendance monitor system using face recognition technology that prioritize performance, attendance simplicity, and accuracy.",
+      tags: ["Python-ML", "Django", "jQuery", "HTML-CSS", "Face-recognition", "tensorflow", "Web-socket"],
+      image: "/project/face_recognition.svg",
+      imageClass: "bg-white",
+    },
+    {
+      title: "Oil Rig Pump Monitoring System",
+      description: "Real-time platform to monitor pump performance and condition that connected to a customized IoT device using curl and web-socket.",
+      tags: ["Laravel", "jQuery", "HTML-CSS", "Web-socket", "CURL"],
+      image: "/project/oil_rig.svg",
+      imageClass: "bg-white",
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#000000] relative overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#000000] relative overflow-x-clip">
       <Image
         src="/space/Wave1.svg"
         alt="wave1"
@@ -157,6 +199,15 @@ const PortfolioWebsite = () => {
         className="min-w-[400px] absolute top-[900px] left-[180px] z-0 paralax"
         data-ty='0.1'
         data-tx='-0.05'
+      />
+      <Image
+        src="/space/astronaut.svg"
+        alt="wave2"
+        width={200}
+        height={200}
+        className="min-w-[250px] absolute top-[2500px] left-[500px] z-0 paralax"
+        data-ty='0.1'
+        data-tx='0.2'
       />
 
       {/* Navigation */}
@@ -274,26 +325,54 @@ const PortfolioWebsite = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+{/* 
+      <section className="h-[calc(300dvh+500px)]">
+        <div className="overflow-hidden flex items-center bg-white sticky top-[200px]">
+          <div
+            id="scroll-slider"
+            className="flex gap-10 will-change-transform"
+            style={{ width: '300vw' }} // Adjust based on number of slides
+          >
+            <div className="min-w-[100vw] bg-indigo-200 flex items-center justify-center text-4xl font-bold">
+              Slide 1
+            </div>
+            <div className="min-w-[100vw] bg-green-200 flex items-center justify-center text-4xl font-bold">
+              Slide 2
+            </div>
+            <div className="min-w-[100vw] bg-pink-200 flex items-center justify-center text-4xl font-bold">
+              Slide 3
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+      <section id="projects" className={`py-20 h-[1800px]`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sticky top-[50px]">
           <h2 className="text-4xl font-bold text-center mb-12">Featured Projects</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <div key={index} className="bg-[var(--background)] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                <Image src={'https://picsum.photos/300'} alt={project.title} className="w-full h-48 object-cover" width={300} height={300} />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
+          <div className="flex items-center">
+            <div
+              id="scroll-slider"
+              className="flex gap-10 will-change-transform ml-20"
+              style={{ width: '300vw' }} // Adjust based on number of slides
+            >
+              {projects.map((project, index) => (
+                <div key={index} className="relative bg-[var(--background)] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-[350px]">
+                  <Image src={project.image} alt={project.title} className={"h-48 object-cover min-w-[350px] "+project.imageClass} width={300} height={300} />
+                  <div className="p-6 h-[300px] [scrollbar-width:none] overflow-y-auto mb-px">
+                    <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                    <p className="text-gray-600 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, tagIndex) => (
+                        <span key={tagIndex} className="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
+                  <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-b from-transparent to-[var(--background)]"></div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
