@@ -2,6 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library, IconProp } from '@fortawesome/fontawesome-svg-core';
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+library.add(far, fas, fab);
 
 const PortfolioWebsite = () => {
   const [activeSection, setActiveSection] = useState('hero');
@@ -417,14 +423,16 @@ const PortfolioWebsite = () => {
               <div>
                 <h3 className="text-xl font-semibold mb-4">Professionals</h3>
                 <div className="space-y-4">
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
-                    <span>github.com/rijalalfariz</span>
+                  <a href="github.com/rijalalfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
+                    <i className="fa-brands fa-github" aria-hidden="true"></i>
+                    <span>rijalalfariz</span>
                   </a>
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
-                    <span>linkedin.com/in/rijaal_alfariz</span>
+                  <a href="linkedin.com/in/rijaal_alfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
+                    <i className="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                    <span>rijaal_alfariz</span>
                   </a>
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
-                    <Mail className="w-6 h-6" />
+                  <a href="#" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
+                    <i className="fa-regular fa-envelope" aria-hidden="true"></i>
                     <span>rijalfariz@gmail.com</span>
                   </a>
                 </div>
@@ -438,15 +446,13 @@ const PortfolioWebsite = () => {
               <div>
                 <h3 className="text-xl font-semibold mb-4">Community</h3>
                 <div className="space-y-4">
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
+                  <a href="wa.me/6285861513613" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
+                    <i className="fa-solid fa-phone" aria-hidden="true" />
                     <span>+62 858-6151-3613</span>
                   </a>
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
+                  <a href="instagram.com/rijaal_alfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
+                    <i className="fa-brands fa-instagram" aria-hidden="true" />
                     <span>rijaal_alfariz</span>
-                  </a>
-                  <a href="#" className="flex items-center space-x-3 hover:text-indigo-600 transition-colors duration-200">
-                    <Mail className="w-6 h-6" />
-                    <span>rijalfariz@gmail.com</span>
                   </a>
                 </div>
               </div>
