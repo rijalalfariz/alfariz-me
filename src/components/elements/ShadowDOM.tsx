@@ -40,7 +40,7 @@ const ShadowDOM: React.FC<ShadowDOMProps> = ({ children, className, style }) => 
       shadowRootRef.current = null;
       mountPointRef.current = null;
     };
-  }); // <- only run once
+  }, [children]); // <- only run once
 
   useEffect(() => {
     // Re-render children only when they change
