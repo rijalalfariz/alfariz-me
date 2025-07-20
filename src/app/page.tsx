@@ -1,12 +1,11 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Mail } from 'lucide-react';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Ufo from '@/components/ufo';
 import { library, IconProp } from '@fortawesome/fontawesome-svg-core';
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 library.add(far, fas, fab);
 
 const PortfolioWebsite = () => {
@@ -130,6 +129,7 @@ const PortfolioWebsite = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#000000] relative overflow-x-clip">
+      <Ufo/>
       <Image
         src="/space/Wave1.svg"
         alt="wave1"
@@ -433,7 +433,7 @@ const PortfolioWebsite = () => {
                   </a>
                   <a href="#" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
                     <i className="fa-regular fa-envelope" aria-hidden="true"></i>
-                    <span>rijalfariz@gmail.com</span>
+                    <span>rijalfariz.work@gmail.com</span>
                   </a>
                 </div>
               </div>
