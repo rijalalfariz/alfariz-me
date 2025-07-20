@@ -32,11 +32,8 @@ const ShadowDOM: React.FC<ShadowDOMProps> = ({ children, className, style }) => 
 
     // Create shadow root if it doesn't exist
     if (!shadowRootRef.current) {
-      if (!container.shadowRoot) {
-        shadowRootRef.current = container.attachShadow({ mode: 'open' });
-      } else {
-        shadowRootRef.current = container.shadowRoot;
-      }
+      if (container.shadowRoot) return;
+      shadowRootRef.current = container.attachShadow({ mode: 'open' });
 
       // Create mount point
       const mountPoint = document.createElement('div');
@@ -57,7 +54,7 @@ const ShadowDOM: React.FC<ShadowDOMProps> = ({ children, className, style }) => 
       shadowRootRef.current = null;
       mountPointRef.current = null;
     };
-  }, [children]); // <- only run once
+  }, []); // <- only run once
 
   useEffect(() => {
     // Re-render children only when they change
