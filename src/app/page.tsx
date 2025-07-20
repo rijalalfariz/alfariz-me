@@ -67,15 +67,15 @@ const PortfolioWebsite = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const initHeroState = heroState;
   useEffect(() => {
     if (!heroRef.current) return;
 
     // init state
-    const initHeroState = heroState;
     initHeroState.left.start = (heroRef.current as HTMLImageElement).offsetLeft + "px";
     initHeroState.minWidth.start = (heroRef.current as HTMLImageElement).clientWidth + "px";
 
-    console.log('a', initHeroState)
+    // console.log('a', initHeroState)
     setHeroState({
       ...heroState,
       ...initHeroState
@@ -140,7 +140,7 @@ const PortfolioWebsite = () => {
     return () => {
       document.removeEventListener("scroll", handleScroll);
     }
-  }, [heroState])
+  }, [])
   //  [mask-image:linear-gradient(to_bottom,white,transparent)]
 
   return (
