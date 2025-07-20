@@ -17,17 +17,15 @@ const ShadowDOM: React.FC<ShadowDOMProps> = ({ children, className, style }) => 
     const container = containerRef.current;
     if (!container) return;
 
-    // Create shadow root if it doesn't exist
-    if (!shadowRootRef.current) {
+    if (!container.shadowRoot) {
       shadowRootRef.current = container.attachShadow({ mode: 'open' });
 
-      // Create mount point
       const mountPoint = document.createElement('div');
-      // mountPointRef.current = mountPoint;
       shadowRootRef.current.appendChild(mountPoint);
 
-      // Create root
       reactRootRef.current = createRoot(mountPoint);
+    } else {
+      shadowRootRef.current = container.shadowRoot;
     }
 
     // Render children
