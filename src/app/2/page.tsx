@@ -71,7 +71,7 @@ const PortfolioWebsite = () => {
     if (!heroRef.current) return;
 
     // init state
-    let initHeroState = heroState;
+    const initHeroState = heroState;
     initHeroState.left.start = (heroRef.current as HTMLImageElement).offsetLeft + "px";
     initHeroState.minWidth.start = (heroRef.current as HTMLImageElement).clientWidth + "px";
 
@@ -140,7 +140,7 @@ const PortfolioWebsite = () => {
     return () => {
       document.removeEventListener("scroll", handleScroll);
     }
-  }, [])
+  }, [heroState])
   //  [mask-image:linear-gradient(to_bottom,white,transparent)]
 
   return (

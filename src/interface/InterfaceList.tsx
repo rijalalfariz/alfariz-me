@@ -25,5 +25,5 @@ export interface Project {
   tags?: string[];
   projectLink?: string;
   gitLink?: string;
-  isPrivate: Boolean;
+  isPrivate: boolean;
 }

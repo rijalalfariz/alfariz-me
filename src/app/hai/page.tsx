@@ -1,7 +1,5 @@
 'use client';
-import { dir } from 'console';
-import { Calendar } from 'lucide-react';
-import { useState, useRef, useEffect, SetStateAction } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface Task {
   id: string;
@@ -214,7 +212,7 @@ export default function EnhancedTaskBoard() {
 
   const handleUnimplementedFeature = (e: React.MouseEvent, _featureName: string) => {
     e.preventDefault();
-    showToast('This feature is available in our pro version', 'info');
+    showToast(`This feature (${_featureName}) is available in our pro version`, 'info');
   };
 
   const addTask = () => {
@@ -393,12 +391,12 @@ export default function EnhancedTaskBoard() {
     };
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      addTask();
-    }
-  };
+  // const handleKeyPress = (e: React.KeyboardEvent) => {
+  //   if (e.key === 'Enter' && !e.shiftKey) {
+  //     e.preventDefault();
+  //     addTask();
+  //   }
+  // };
 
   const styles = {
     app: {
@@ -1158,7 +1156,7 @@ export default function EnhancedTaskBoard() {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       zIndex: 999,
       opacity: sidebarOpen ? 1 : 0,
-      visibility: sidebarOpen ? 'visible' : 'hidden',
+      visibility: (sidebarOpen ? 'visible' : 'hidden') as 'visible' | 'hidden' | 'collapse',
       transition: 'opacity 0.3s ease, visibility 0.3s ease',
     },
 
@@ -1295,17 +1293,13 @@ export default function EnhancedTaskBoard() {
       };
     }, []);
 
-    useEffect(() => {
-      console.log('rerender:', valueState);
-    }, []);
-
-    const formattedValue = value
-      ? new Date(value).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
-      : '';
+    // const formattedValue = value
+    //   ? new Date(value).toLocaleDateString('en-US', {
+    //     month: 'short',
+    //     day: 'numeric',
+    //     year: 'numeric',
+    //   })
+    //   : '';
 
     const getDaysInMonth = (year: number, month: number) => {
       return new Date(year, month + 1, 0).getDate();
@@ -1363,7 +1357,7 @@ export default function EnhancedTaskBoard() {
 
     const handleDateSelect = (date: Date) => {
       console.log('handleDateSelect', date);
-      const formattedDate = date.toISOString().split('T')[0];
+      // const formattedDate = date.toISOString().split('T')[0];
       setValueState(new Date(date).toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -1565,13 +1559,7 @@ export default function EnhancedTaskBoard() {
     const [status, setStatus] = useState(task ? task.status : 'todo');
     const [dateTImepickerClosing, setDateTImepickerClosing] = useState(false);
 
-    const [dueDate, setDueDate] = useState(
-      task && task.dueDate ? task.dueDate.toISOString().split('T')[0] : ''
-    );
-
-    useEffect(() => {
-      console.log('dueeeee rerende', dueDate);
-    }, [])
+    const dueDate = task && task.dueDate ? task.dueDate.toISOString().split('T')[0] : '';
 
     useEffect(() => {
       console.log('dateTImepickerClosing', dateTImepickerClosing);
@@ -1581,11 +1569,11 @@ export default function EnhancedTaskBoard() {
       }
     }, [dateTImepickerClosing]);
 
-    const onChangeDateEdit = (datee: SetStateAction<string>) => {
-      console.log('onChangeDateEdit', datee, dueDate);
-      setDueDate(datee);
-      setDateTImepickerClosing(true);
-    }
+    // const onChangeDateEdit = (datee: SetStateAction<string>) => {
+    //   console.log('onChangeDateEdit', datee, dueDate);
+    //   setDueDate(datee);
+    //   setDateTImepickerClosing(true);
+    // }
     // Effect to update state when the task prop changes
     useEffect(() => {
       if (task) {
@@ -1731,7 +1719,7 @@ export default function EnhancedTaskBoard() {
     );
   };
 
-  const DeleteTaskModal = ({ taskId, taskTitle, onConfirm, onCancel }: DeleteModalProps) => {
+  const DeleteTaskModal = ({ taskId, onConfirm, onCancel }: DeleteModalProps) => {
     if (!taskId) return null;
 
     return (
@@ -1982,33 +1970,33 @@ export default function EnhancedTaskBoard() {
     </svg>
   );
 
-  const InfoIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 16V12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 8H12.01"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  // const InfoIcon = () => (
+  //   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //     <circle
+  //       cx="12"
+  //       cy="12"
+  //       r="10"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //     />
+  //     <path
+  //       d="M12 16V12"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //     />
+  //     <path
+  //       d="M12 8H12.01"
+  //       stroke="currentColor"
+  //       strokeWidth="1.5"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //     />
+  //   </svg>
+  // );
 
   // Add hamburger menu icon component
   const HamburgerIcon = () => (
@@ -2413,7 +2401,7 @@ export default function EnhancedTaskBoard() {
                     <DatePicker
                       id="task-due-date"
                       value={newTaskDueDate}
-                      onChange={setNewTaskDueDate}
+                      onChange={date => setNewTaskDueDate(date ? date.toISOString().split('T')[0] : '')}
                       darkMode={darkMode}
                     />
                   </div>

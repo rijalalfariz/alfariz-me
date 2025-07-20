@@ -1,8 +1,6 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
-import { TechStackItem, TechStackConnection } from '@/interface/InterfaceList';
+import React from 'react';
 import { techStackConns } from '@/interface/GlobalVar';
-import { IconName } from 'tech-stack-icons';
 import TechStackBox from '../TechStackBox';
 import TechStackLine from '../TechStackLine';
 import useScrollFadeIn from '@/hooks/useScrollFadeIn';

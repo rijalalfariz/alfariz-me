@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 const Ufo: React.FC = () => {
@@ -8,32 +8,32 @@ const Ufo: React.FC = () => {
     if (!ufo) return;
 
     
-    const screenPadding = 50;
-    const ufoSize = 40; // px
-    const speed = 2;
+    // const screenPadding = 50;
+    // const ufoSize = 40; // px
+    // const speed = 2;
     const avoidDistance = 150;
     
-    let x = 100;
-    let y = 100;
-    let vx = speed; // initial
-    let vy = speed; // initial
+    const x = 100;
+    const y = 100;
+    // let vx = speed; // initial
+    // let vy = speed; // initial
 
-    const updateUfoPosition = () => {
-      const maxX = window.innerWidth - ufoSize - screenPadding;
-      const maxY = document.body.scrollHeight - ufoSize - screenPadding;
+    // const updateUfoPosition = () => {
+    //   const maxX = window.innerWidth - ufoSize - screenPadding;
+    //   const maxY = document.body.scrollHeight - ufoSize - screenPadding;
 
-      x += vx;
-      y += vy;
+    //   x += vx;
+    //   y += vy;
 
-      if (x < screenPadding || x > maxX) vx *= -1;
-      if (y < screenPadding || y > maxY) vy *= -1;
+    //   if (x < screenPadding || x > maxX) vx *= -1;
+    //   if (y < screenPadding || y > maxY) vy *= -1;
 
-      // Apply transform based on actual x and y, and adjust for scroll
-      const scrollY = window.scrollY;
-      (ufo as HTMLImageElement).style.transform = `translate(${x}px, ${y - scrollY}px)`;
+    //   // Apply transform based on actual x and y, and adjust for scroll
+    //   const scrollY = window.scrollY;
+    //   (ufo as HTMLImageElement).style.transform = `translate(${x}px, ${y - scrollY}px)`;
 
-      requestAnimationFrame(updateUfoPosition);
-    };
+    //   requestAnimationFrame(updateUfoPosition);
+    // };
 
     const handleMouseMove = (e: MouseEvent) => {
       // Adjust mouseY to be relative to document, not just viewport
@@ -45,9 +45,9 @@ const Ufo: React.FC = () => {
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < avoidDistance) {
-        const angle = Math.atan2(dy, dx);
-        vx = -speed * Math.cos(angle);
-        vy = -speed * Math.sin(angle);
+        // const angle = Math.atan2(dy, dx);
+        // vx = -speed * Math.cos(angle);
+        // vy = -speed * Math.sin(angle);
       }
     };
 

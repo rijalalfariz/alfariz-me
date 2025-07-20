@@ -7,7 +7,7 @@ const GlobalTS = () => {
     document.querySelectorAll('[class*=speed_]').forEach((el) => {
       el.addEventListener('click', () => {
         console.log('aad');
-        let speedParam = [...Array.from(el.classList).findLast(v => v.startsWith('speed_'))?.split("_") || []];
+        const speedParam = [...Array.from(el.classList).findLast(v => v.startsWith('speed_'))?.split("_") || []];
         console.log('aae', speedParam);
         if (!speedParam) return;
 

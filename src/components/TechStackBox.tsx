@@ -1,6 +1,5 @@
 "use client"
 import React from 'react';
-import { TechStackItem } from '@/interface/InterfaceList';
 import { techStacks } from '@/interface/GlobalVar';
 import StackIcon from 'tech-stack-icons';
 import Image from 'next/image';

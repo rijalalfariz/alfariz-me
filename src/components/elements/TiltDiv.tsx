@@ -95,7 +95,7 @@ const TiltDiv = forwardRef<HTMLDivElement, TiltDivProps>(({ children, ...props }
     // Initialize dimensions
     updateDimensions();
 
-    const handleScroll = (e: Event) => {
+    const handleScroll = () => {
       console.log('mxy', lastMouseX, lastMouseY);
 
       // Don't dispatch a fake event, just recalculate position
@@ -151,4 +151,5 @@ const TiltDiv = forwardRef<HTMLDivElement, TiltDivProps>(({ children, ...props }
   );
 });
 
+TiltDiv.displayName = "TiltDiv";
 export default TiltDiv;

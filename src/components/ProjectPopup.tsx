@@ -112,10 +112,11 @@ const ProjectPopup: React.FC<ProjectPopupProps> = ({ project, isOpen, onClose })
                       : 'border-transparent hover:border-gray-300'
                       }`}
                   >
-                    <img
+                    <Image
                       src={img}
                       alt={`Thumbnail ${index + 1}`}
                       className="w-full h-full object-cover"
+                      fill
                     />
                   </button>
                 ))}

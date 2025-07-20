@@ -32,10 +32,9 @@ export default function TaskManager() {
     }
   }
 
-  const EditTaskModal = ({ task, onSave, onClose }: {
+  const EditTaskModal = ({ task, onSave }: {
     task: Task | null,
-    onSave: (updatedTask: Task) => void,
-    onClose: () => void
+    onSave: (updatedTask: Task) => void
   }) => {
     const [newTitle, setNewTitle] = useState(task ? task.title : '');
 
@@ -124,7 +123,6 @@ export default function TaskManager() {
             <EditTaskModal
               task={taskToEdit}
               onSave={saveTaskChanges}
-              onClose={() => setTaskToEdit(null)}
             />
           )}
         </div>

@@ -1,11 +1,6 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
-import { TechStackItem, TechStackConnection, Project } from '@/interface/InterfaceList';
-import { techStackConns } from '@/interface/GlobalVar';
-import { IconName } from 'tech-stack-icons';
-import TechStackBox from '../TechStackBox';
-import TechStackLine from '../TechStackLine';
-import useScrollFadeIn from '@/hooks/useScrollFadeIn';
+import React, { useState } from 'react';
+import { Project } from '@/interface/InterfaceList';
 import { projects } from '@/interface/GlobalVar';
 import ProjectCard from '../ProjectCard';
 import ProjectPopup from '../ProjectPopup';
@@ -38,7 +33,7 @@ const Signature: React.FC = () => {
       <div id="signature" className="grid auto-rows-[min-content_1fr] w-[80vw] mx-auto">
         <div className="grid justify-center align-start text-center">
           <h2 className="text-2xl font-bold">Signature</h2>
-          <p>A showcase of the hard work and meaningful projects I've built to create impact for users and clients alike.</p>
+          <p>A showcase of the hard work and meaningful projects I&apos;ve built to create impact for users and clients alike.</p>
         </div>
 
         <div className="container mx-auto px-12 py-12">

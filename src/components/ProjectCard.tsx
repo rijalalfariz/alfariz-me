@@ -25,8 +25,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [preferedHeight, setPreferedHeight] = useState('auto');
   const cardRef = useRef<HTMLDivElement>(null);
   const projectImageRef = useRef<HTMLImageElement>(null);
-  const [imageTransitionWidth, setImageTransitionWidth] = useState("100%");
-  const [imageTransitionHeight, setImageTransitionHeight] = useState("100%");
+  const imageTransitionWidth = "100%";
   const [imageTransStyle, setImageTransStyle] = useState({});
 
   useEffect(() => {

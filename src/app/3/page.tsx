@@ -7,7 +7,7 @@ const METABASE_SECRET_KEY = "332fcc8e5015c649a3c76fec9027d6a6871f95a93c8a49c4416
 
 function getMetabaseIframeUrl(id: number): string {
   const payload = {
-    resource: { dashboard: 33 },
+    resource: { dashboard: id },
     params: {},
     exp: Math.round(Date.now() / 1000) + (10 * 60) // 10 minute expiration
   };
@@ -17,7 +17,6 @@ function getMetabaseIframeUrl(id: number): string {
 
 export default function Page() {
   const iframeUrl = getMetabaseIframeUrl(33);
-  const iframeUrl2 = getMetabaseIframeUrl(39);
 
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
