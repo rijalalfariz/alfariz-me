@@ -1,19 +1,56 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Ufo from '@/components/ufo';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PersonalInfo from '@/components/section/PersonalInfo';
+import TechStack from '@/components/section/TechStack';
+import Signature from '@/components/section/Signature';
+import Footer from '@/components/section/Footer';
 library.add(far, fas, fab);
 
+interface Progress {
+  start: string;
+  current: string;
+  finish: string;
+}
+
+interface HeroState {
+  width: Progress;
+  height: Progress;
+  left: Progress;
+  top: Progress;
+  minWidth: Progress;
+  clipPath: {
+    radius: Progress;
+    x: Progress;
+    y: Progress;
+  }
+}
+
 const PortfolioWebsite = () => {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const heroRef = useRef(null);
+  const firstContainerRef = useRef(null);
+  const [heroState, setHeroState] = useState<HeroState>({
+    width: { start: "2150", current: "2150", finish: "184" },
+    height: { start: "1209", current: "1209", finish: "103" },
+    left: { start: "", current: "-40%", finish: "-35px" },
+    top: { start: "0", current: "0", finish: "7px" },
+    minWidth: { start: "", current: "140vw", finish: "184px" },
+    clipPath: {
+      radius: { start: "100%", current: "100%", finish: "18%" },
+      x: { start: "64%", current: "64%", finish: "51%" },
+      y: { start: "-90%", current: "-90%", finish: "30%" }
+    }
+  });
+  const [firstSectionScrollPercentage, setFirstSectionScrollPercentage] = useState(0);
+  const [activeSection, setActiveSection] = useState("");
 
   const handleScroll = () => {
-    const sections = ['hero', 'about', 'projects', 'contact'];
+    const sections = ['tech-stack', 'signature', 'contact'];
     const current = sections.find(section => {
       const element = document.getElementById(section);
       if (element) {
@@ -31,444 +68,183 @@ const PortfolioWebsite = () => {
   }, []);
 
   useEffect(() => {
-    const handleParallax = () => {
-      const scrollY = window.scrollY;
-      const paralaxElems = document.querySelectorAll('.paralax');
+    if (!heroRef.current) return;
 
-      paralaxElems.forEach((elem) => {
-        const tx = elem.getAttribute('data-tx') || '0';
-        const ty = elem.getAttribute('data-ty') || '0';
-        const e = elem as HTMLElement;
-        e.style.transform = `translateY(${scrollY * parseFloat(ty)}px) translateX(${scrollY * parseFloat(tx)}px)`;
-      });
-    };
+    // init state
+    const initHeroState = heroState;
+    initHeroState.left.start = (heroRef.current as HTMLImageElement).offsetLeft + "px";
+    initHeroState.minWidth.start = (heroRef.current as HTMLImageElement).clientWidth + "px";
 
-    window.addEventListener('scroll', handleParallax);
-    return () => window.removeEventListener('scroll', handleParallax);
-  }, []);
+    console.log('a', initHeroState)
+    setHeroState({
+      ...heroState,
+      ...initHeroState
+    })
 
-  useEffect(() => {
-    const elements = document.querySelectorAll('.fade-in-on-scroll');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-8');
+    const handleScroll = () => {
+      if (!firstContainerRef.current) return;
+      const eHeight = (firstContainerRef.current as HTMLDivElement).clientHeight;
+      const percentage = Math.min(window.scrollY / eHeight, 1);
+      setFirstSectionScrollPercentage(percentage);
+
+      // Helper to interpolate between start and finish values
+      const interpolate = (start: string, finish: string) => {
+        const startNum = parseFloat(start);
+        const finishNum = parseFloat(finish);
+        const unit = start.replace(/[0-9.\-]/g, '') || finish.replace(/[0-9.\-]/g, '');
+        return (startNum + (finishNum - startNum) * percentage) + unit;
+      };
+
+      setHeroState(prev => ({
+        ...prev,
+        width: {
+          ...prev.width,
+          current: interpolate(prev.width.start, prev.width.finish)
+        },
+        height: {
+          ...prev.height,
+          current: interpolate(prev.height.start, prev.height.finish)
+        },
+        left: {
+          ...prev.left,
+          current: interpolate(prev.left.start, prev.left.finish)
+        },
+        top: {
+          ...prev.top,
+          current: interpolate(prev.top.start, prev.top.finish)
+        },
+        minWidth: {
+          ...prev.minWidth,
+          current: interpolate(prev.minWidth.start, prev.minWidth.finish)
+        },
+        clipPath: {
+          radius: {
+            ...prev.clipPath.radius,
+            current: interpolate(prev.clipPath.radius.start, prev.clipPath.radius.finish)
+          },
+          x: {
+            ...prev.clipPath.x,
+            current: interpolate(prev.clipPath.x.start, prev.clipPath.x.finish)
+          },
+          y: {
+            ...prev.clipPath.y,
+            current: interpolate(prev.clipPath.y.start, prev.clipPath.y.finish)
+          }
         }
-      });
-    }, { threshold: 1 });
-
-    elements.forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const slider = document.getElementById('scroll-slider');
-    const section = slider?.parentElement?.parentElement?.parentElement;
-
-    const handleScrollSliders = () => {
-      if (!slider || !section) return;
-
-      const scrollStart = section.offsetTop;
-      const scrollEnd = scrollStart + section.offsetHeight;
-      const scrollY = window.scrollY;
-
-      console.log('scrollStart', scrollStart)
-      console.log('scrollEnd', scrollEnd)
-      console.log('scrollY', scrollY)
-
-      if (scrollY >= scrollStart && scrollY <= scrollEnd) {
-        const scrollProgress = scrollY - scrollStart;
-        slider.style.transform = `translateX(-${scrollProgress}px)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScrollSliders);
-    return () => window.removeEventListener('scroll', handleScrollSliders);
-  }, []);
-
-  const projects = [
-    {
-      title: "Logistic & Transport Tender Management Platform",
-      description: "A full-stack e-commerce solution for managing Tenders and Logistics between Shippers and Transporters. This project includes  including Admin backoffice for managing users & their access, activity, and monitor Tender data",
-      tags: ["PHP-Silverstripe", "jQuery", "HTML-CSS", "File management", "PDF generator", "Mailing & Notifications"],
-      image: "/project/logistic.svg",
-      imageClass: "bg-white",
-    },
-    {
-      title: "Logistic Ads Management Platform",
-      description: "Web application to bridge between Sellers and Buyers in the Logistic industry. This project includes Admin backoffice for managing users access, activity, and monitor Ads data & profit. Major features includes dynamic & customizable form fields for Ads data (CMS-like), that needs tricky ERD design",
-      tags: ["PHP-Silverstripe", "jQuery", "HTML-CSS", "Dynamic form fields", "Async functions & callback", "File management"],
-      image: "/project/seller_buyer.svg",
-      imageClass: "bg-white",
-    },
-    {
-      title: "Logistic Partition Product Management",
-      description: "A platform for managing Truck Partition products. My part is focusing on managing product discounts with certain rules that set by Admin.",
-      tags: ["Node.js", "React.js", "Next.js", "Async functions & callback"],
-      image: "/project/truck_part.svg",
-      imageClass: "bg-white",
-    },
-    {
-      title: "Face-recognition Attendance System",
-      description: "Real-time attendance monitor system using face recognition technology that prioritize performance, attendance simplicity, and accuracy.",
-      tags: ["Python-ML", "Django", "jQuery", "HTML-CSS", "Face-recognition", "tensorflow", "Web-socket"],
-      image: "/project/face_recognition.svg",
-      imageClass: "bg-white",
-    },
-    {
-      title: "Oil Rig Pump Monitoring System",
-      description: "Real-time platform to monitor pump performance and condition that connected to a customized IoT device using curl and web-socket.",
-      tags: ["Laravel", "jQuery", "HTML-CSS", "Web-socket", "CURL"],
-      image: "/project/oil_rig.svg",
-      imageClass: "bg-white",
+      }));
     }
-  ];
+
+    document.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    }
+  }, [heroState])
+  //  [mask-image:linear-gradient(to_bottom,white,transparent)]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2b0a53] to-[#000000] relative overflow-x-clip">
-      <Ufo/>
-      <Image
-        src="/space/Wave1.svg"
-        alt="wave1"
-        width={200}
-        height={200}
-        className="min-w-[120dvw] absolute -top-[70dvh] -left-10 z-0 paralax"
-        data-ty='0.3'
-        data-tx='-0.2'
+    <div className="relative overflow-y-hidden">
+      <div
+        className="fixed top-0 w-full h-32 mt-0 pointer-events-none z-30"
+        style={{
+          background: 'linear-gradient(to bottom, #D1D1ED, transparent)',
+          mixBlendMode: 'color-dodge',
+        }}
       />
+      {/* <div className="pointer-events-none fixed top-0 left-0 right-0 h-[70px] z-30 backdrop-blur-xl [mask-image:linear-gradient(to_bottom,white,transparent)] bg-white/50" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[80px] z-30 backdrop-blur-lg [mask-image:linear-gradient(to_bottom,white,transparent)] bg-white/50" /> */}
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[2px] z-30 backdrop-blur-[120px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[12px] z-30 backdrop-blur-[6px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[20px] z-30 backdrop-blur-[5px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[32px] z-30 backdrop-blur-[5px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[40px] z-30 backdrop-blur-[4px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[55px] z-30 backdrop-blur-[3px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[75px] z-30 backdrop-blur-[2px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] z-30 backdrop-blur-[1px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-[var(--bg-1)] to-transparent z-20 opacity-[0.1]" />
       <Image
-        src="/space/Wave2.svg"
-        alt="wave2"
-        width={200}
-        height={200}
-        className="min-w-[120dvw] absolute -top-[50dvh] -left-10 z-0 paralax"
-        data-ty='0.6'
+        id="aa"
+        ref={heroRef}
+        className="fixed z-10"
+        src="/img/me-large.png"
+        width={parseInt(heroState.width?.current || '0')}
+        height={parseInt(heroState.height?.current || '0')}
+        alt="me"
+        style={{
+          left: heroState.left?.current,
+          top: heroState.top?.current,
+          minWidth: heroState.minWidth?.current,
+          clipPath: `circle(${heroState.clipPath?.radius.current} at ${heroState.clipPath?.x.current} ${heroState.clipPath?.y.current})`
+        }}
       />
-      <Image
-        src="/space/small-stars.svg"
-        alt="stars"
-        width={200}
-        height={200}
-        className="min-w-[90dvw] absolute top-[5dvh] left-10 z-0 paralax"
-        data-ty='0.3'
-      />
-      <Image
-        src="/space/medium-stars.svg"
-        alt="stars"
-        width={200}
-        height={200}
-        className="min-w-[90dvw] absolute top-[120dvh] left-20 z-0 paralax"
-        data-ty='0.4'
-      />
-      <Image
-        src="/space/small-stars.svg"
-        alt="stars"
-        width={200}
-        height={200}
-        className="min-w-[90dvw] absolute top-[150dvh] left-10 z-0 paralax"
-        data-ty='0.3'
-      />
-      <Image
-        src="/space/medium-stars.svg"
-        alt="stars"
-        width={200}
-        height={200}
-        className="min-w-[90dvw] absolute top-[1dvh] left-20 z-0 paralax"
-        data-ty='0.4'
-      />
-      <Image
-        src="/space/small-stars.svg"
-        alt="stars"
-        width={200}
-        height={200}
-        className="min-w-[90dvw] absolute top-[270dvh] left-10 z-0 paralax"
-        data-ty='0.3'
-      />
-      <Image
-        src="/space/small-meteor.svg"
-        alt="meteor"
-        width={200}
-        height={200}
-        className="min-w-[390px] absolute -top-[100px] left-20 z-0 paralax"
-        data-ty='0.6'
-        data-tx='-0.2'
-      />
-      <Image
-        src="/space/planet1.svg"
-        alt="planet1"
-        width={0}
-        height={0}
-        className="min-w-[50px] absolute top-[500px] left-[600px] z-0 paralax"
-        data-ty='0.2'
-      />
-      <Image
-        src="/space/planet2.svg"
-        alt="planet2"
-        width={200}
-        height={200}
-        className="min-w-[700px] absolute top-[100px] left-10 z-0 paralax"
-        data-ty='0.1'
-      />
-      <Image
-        src="/space/rocket.svg"
-        alt="rocket"
-        width={200}
-        height={200}
-        className="min-w-[700px] absolute top-[550px] -left-20 z-0 paralax"
-        data-ty='0.1'
-        data-tx='0.5'
-      />
-      <Image
-        src="/space/satelite.svg"
-        alt="satelite"
-        width={200}
-        height={200}
-        className="min-w-[400px] absolute top-[900px] left-[180px] z-0 paralax"
-        data-ty='0.1'
-        data-tx='-0.05'
-      />
-      <Image
-        src="/space/astronaut.svg"
-        alt="astronaut"
-        width={200}
-        height={200}
-        className="min-w-[250px] absolute top-[2700px] left-[400px] z-0 paralax"
-        data-ty='0.1'
-        data-tx='0.2'
-      />
+      <div className="fixed top-0 w-full overflow-hidden z-50">
+        <div className="relative flex z-50 justify-between">
+          <Image
+            src="/img/me-square.png"
+            width={59}
+            height={59}
+            alt="me square"
+            className={"object-contain rounded-full z-10 transition-all ml-[30px] mt-[6px]" + (firstSectionScrollPercentage == 1 ? " opacity-100 delay-100 duration-300" : " opacity-0 duration-0")}
+          />
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-fit left-1/2 -translate-x-1/2 rounded-b-lg bg-white shadow-md z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center h-12">
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#hero" className={`${activeSection === 'hero' ? 'text-indigo-900' : 'text-gray-600'} hover:text-indigo-500 transition-colors duration-200`}>Welcome</a>
-              <a href="#about" className={`${activeSection === 'about' ? 'text-indigo-900' : 'text-gray-600'} hover:text-indigo-500 transition-colors duration-200`}>Skills</a>
-              <a href="#projects" className={`${activeSection === 'projects' ? 'text-indigo-900' : 'text-gray-600'} hover:text-indigo-500 transition-colors duration-200`}>Signature</a>
-              <a href="#contact" className={`${activeSection === 'contact' ? 'text-indigo-900' : 'text-gray-600'} hover:text-indigo-500 transition-colors duration-200`}>Contact</a>
+          <div className="flex gap-5 nav-menu-init h-9 items-center py-3 px-5 mt-4 mx-5 bg-white/50 rounded-full backdrop-blur-sm
+              [&>div]:cursor-pointer [&>div]:grid [&>div]:justify-center [&>div]:items-center [&>div]:justify-items-center
+              [&>div>div]:bg-[var(--fg-9)] [&>div>div]:rounded-full [&>div>div]:h-0 [&>div>div]:w-0 [&>div>div]:transition-all [&>div>div]:duration-100
+              ">
+            <div className={`filter drop-shadow-[0_0_12px_rgba(255,255,255,100)] ${activeSection === "tech-stack" ? "font-bold" : ""}`}>
+              <a href="#tech-stack" onClick={() => setActiveSection('tech-stack')}>Tech Stack</a>
+              <div className="" />
             </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-              >
-                <span className="sr-only">Open main menu</span>
-                {isMenuOpen ? (
-                  <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </button>
+            <div className={`filter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${activeSection === "signature" ? "font-bold" : ""}`}>
+              <a href="#signature" onClick={() => setActiveSection('signature')}>Signature</a>
+              <div className="" />
+            </div>
+            <div className={`filter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${activeSection === "contact" ? "font-bold" : ""}`}>
+              <a href="#contact" onClick={() => setActiveSection('contact')}>Contact Me</a>
+              <div className="" />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a href="#hero" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Welcome</a>
-              <a href="#about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Skills</a>
-              <a href="#projects" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Signature</a>
-              <a href="#contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Contact</a>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section
-        id="hero"
-        className="min-h-screen relative overflow-hidden text-white p-20"
-      >
-        {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 gap-20 flex flex-col md:flex-row items-center justify-between relative z-10">
-          <div className="text-center md:text-left space-y-6 max-w-lg w-full">
-          </div>
-
-          {/* Avatar Image */}
-          <div className="mt-10 md:mt-0 w-full flex flex-col gap-10 items-center justify-center">
-            <Image src="/img/fariz-avatar.png" alt="Fariz Avatar" width={300} height={300} />
-            <h1 className="text-lg text-center md:text-lg font-bold leading-tight">Fariz - Web Developer</h1>
-            <div className="flex justify-center md:justify-center gap-4">
-              <a
-                href="/cv.pdf"
-                className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-indigo-700 transition"
-              >
-                My CV
-              </a>
-              <a
-                href="#contact"
-                className="px-6 py-3 bg-white text-indigo-700 rounded-full font-semibold hover:bg-opacity-90 transition"
-              >
-                Hire me!
-              </a>
-            </div>
-            <div className='p-5 m-5 fade-in-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out'>
-              A graduate of Politeknik Elektronika Negeri Surabaya (PENS) in Informatics Engineering, with over 3 years of experience as a Full Stack Web Developer. Have strong interest in building responsive, user-friendly applications. Comfortable working in teams and continuously learning to tackle technical challenges effectively.
-            </div>
-          </div>
+      <div ref={firstContainerRef} className="relative flex justify-end p-5 z-20 mb-[100px]" id="first-container">
+        <div className="grid w-[45%] justify-start items-center content-start pt-[300px] pl-[100px]">
+          <h2>25 Y.O.</h2>
+          <p>Pasuruan, Indonesia</p>
         </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 fade-in-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">Skills</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+        <div className="w-[55%] grid p-5 justify-start">
+          <div className="relative flex items-center">
+            <div className="absolute text-[72px] z-10">
+              <b>M Rijal Al Fariz</b><br />
+              <p>Web Developer</p>
             </div>
-            <div>
-              <p className="text-lg text-gray-600 mb-6">
-              </p>
-              <div className="grid grid-cols-2 gap-4 text-gray-700">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-2">Frontend</h3>
-                  <p className="text-gray-600">React, jQuery(js-ts), Native HTML-CSS-JS</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-2">Backend</h3>
-                  <p className="text-gray-600">PHP(Laravel, Silverstripe), Python(Django)</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-2">Database</h3>
-                  <p className="text-gray-600">MySQL, PostgreSQL</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-lg mb-2">Tools</h3>
-                  <p className="text-gray-600">Git, AI-tools(Claude, Builder.io, Copilot)</p>
-                </div>
+            <div className="
+                [mask-image:radial-gradient(ellipse_at_45%_50%,var(--mg-4)_-100%,transparent_70%)]
+                text-center max-w-[40vw]
+              ">Web development | Figma | VSCode | Vanilla | Trae | Prompt Engineering | Adobe XD | UI/UX | Web design | Cursor | Copilot | Claude | Git | HTML | CSS | Javascript | Python | Typescript | React.js | Next.js | PHP | Laravel | Silverstripe | Django | Tailwind CSS | Bootstrap | jQuery | mPdf | Payment Gateway | Midtrans | Django-rest-framework | face_recognition | Machine learning | Artificial Intelligence | Pytorch | Dlib | CI/CD | Web deployment | Database engineering | MySQL | PostgreSQL | Git | HTML | CSS | Javascript | Python | Typescript | React.js | Next.js | PHP | Laravel | Silverstripe | Django | Tailwind CSS | Bootstrap | jQuery | mPdf | Payment Gateway | Midtrans | Django-rest-framework | face_recognition | Machine learning | React.js | Next.js | Artificial Intelligence | Pytorch | Web deployment | Database engineering | MySQL | PostgreSQL | Git | HTML | CSS | Javascript | Python | Typescript | React.js | Next.js | PHP | Laravel | Silverstripe | Django | Tailwind CSS | Bootstrap | jQuery | mPdf | Payment Gateway | Midtrans | Django-rest-framework | face_recognition | Machine learning | Artificial Intelligence | Pytorch | Dlib | CI/CD | Database engineering | MySQL | PostgreSQL | Vagrant | Docker | Responsive application | API | Node.JS | AI Training | Data analyzation | Realtime web application | IoT | Websocket | Pusher | Cron job | Email  & message broker | Data structure |</div>
+          </div>
+
+          <div className="grid gap-1 justify-start items-start">
+            <div className="flex rounded-full w-[360px] py-1 pl-8 pr-1 shadow-md bg-[var(--bg-1)] items-center justify-between">
+              <input className="focus:outline-none text-lg w-full" type="text" name="mail_content" id="main-content-1" value="Hi, I`m interested in you" readOnly/>
+              <div className="animate-plane-fly cursor-pointer overflow-hidden rounded-full bg-[var(--fg-9)] text-[var(--bg-1)] min-w-[48px] min-h-[48px] items-center justify-center flex">
+                <FontAwesomeIcon className="pr-1 pb-1 transform icon" icon={["fas", "paper-plane"]} />
               </div>
             </div>
+            <a className="flex items-center gap-2 text-sm underline" href="#">My resume
+              <FontAwesomeIcon icon={["fas", "up-right-from-square"]} />
+            </a>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Projects Section */}
-      {/* 
-      <section className="h-[calc(300dvh+500px)]">
-        <div className="overflow-hidden flex items-center bg-white sticky top-[200px]">
-          <div
-            id="scroll-slider"
-            className="flex gap-10 will-change-transform"
-            style={{ width: '300vw' }} // Adjust based on number of slides
-          >
-            <div className="min-w-[100vw] bg-indigo-200 flex items-center justify-center text-4xl font-bold">
-              Slide 1
-            </div>
-            <div className="min-w-[100vw] bg-green-200 flex items-center justify-center text-4xl font-bold">
-              Slide 2
-            </div>
-            <div className="min-w-[100vw] bg-pink-200 flex items-center justify-center text-4xl font-bold">
-              Slide 3
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      <section id="projects" className={`pt-20 pb-[300px] h-[2200px]`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sticky top-[50px]">
-          <h2 className="text-4xl font-bold text-center mb-12">Featured Projects</h2>
-          <div className="flex items-center">
-            <div
-              id="scroll-slider"
-              className="flex gap-10 will-change-transform ml-20"
-              style={{ width: '300vw' }} // Adjust based on number of slides
-            >
-              {projects.map((project, index) => (
-                <div key={index} className="relative bg-[var(--background)] rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 w-[350px]">
-                  <Image src={project.image} alt={project.title} className={"h-48 object-cover min-w-[350px] " + project.imageClass} width={300} height={300} />
-                  <div className="p-6 h-[300px] [scrollbar-width:none] overflow-y-auto mb-px">
-                    <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-b from-transparent to-[var(--background)]"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="pt-[15dvw] pb-20 bg-[#56423d] relative">
-        <Image
-          src="/space/mars.svg"
-          alt="mars"
-          width={200}
-          height={200}
-          className="w-full absolute -top-[300px] left-0 z-0"
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Get in Touch</h2>
-          <div className="grid md:grid-cols-[min-content_min-content] gap-20 justify-center auto-cols-min">
-            <div className="space-y-6 w-fit">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Professionals</h3>
-                <div className="space-y-4">
-                  <a href="github.com/rijalalfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
-                    <i className="fa-brands fa-github" aria-hidden="true"></i>
-                    <span>rijalalfariz</span>
-                  </a>
-                  <a href="linkedin.com/in/rijaal_alfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
-                    <i className="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-                    <span>rijaal_alfariz</span>
-                  </a>
-                  <a href="#" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
-                    <i className="fa-regular fa-envelope" aria-hidden="true"></i>
-                    <span>rijalfariz.work@gmail.com</span>
-                  </a>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Location</h3>
-                <p className="">Surabaya, Indonesia</p>
-              </div>
-            </div>
-            <div className="space-y-6 w-fit">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Community</h3>
-                <div className="space-y-4">
-                  <a href="wa.me/6285861513613" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
-                    <i className="fa-solid fa-phone" aria-hidden="true" />
-                    <span>+62 858-6151-3613</span>
-                  </a>
-                  <a href="instagram.com/rijaal_alfariz" className="whitespace-nowrap flex items-center space-x-3 hover:text-[#E49D6E] transition-colors duration-200">
-                    <i className="fa-brands fa-instagram" aria-hidden="true" />
-                    <span>rijaal_alfariz</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#2f4858] text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; 2025 M Rijal Al Fariz - Hire Me!.</p>
-        </div>
-      </footer>
+      <PersonalInfo />
+      <TechStack />
+      <Signature />
+      <Footer />
     </div>
   );
-};
+}
 
 export default PortfolioWebsite;
