@@ -205,4 +205,15 @@ export const projects: Project[] = [
     tech: ['React.js', 'Next.js', 'Node.js', 'TailwindCSS'],
     isPrivate: false,
   },
+  {
+    title: 'Company Profile/Landing Page',
+    description: 'Representation of multiple and various product for a company with optimized SEO & performance score.',
+    image: [
+      'https://res.cloudinary.com/djou33ws6/image/upload/v1753071723/fa360d27-9b59-4428-9e74-610b20828219.png',
+      'https://res.cloudinary.com/djou33ws6/image/upload/v1753071748/cb1bad3d-85fe-48c5-9081-6706c91c7fcf.png',
+      'https://res.cloudinary.com/djou33ws6/image/upload/v1753071768/415be1e1-439d-4a0c-8e06-723e6d7b774d.png'
+    ],
+    tech: ['Bootstrap', 'jQuery', 'HTML', 'CSS'],
+    isPrivate: false,
+  },
 ]
