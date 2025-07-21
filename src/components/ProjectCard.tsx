@@ -42,7 +42,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
     if (orgRatio<renderedRatio) {
       setImageTransStyle({
-        width: `${100 * orgRatio / renderedRatio}%`
+        width: `${100 * orgRatio / renderedRatio}%`,
+        transform: `translateX(${(100 - 100 * orgRatio / renderedRatio)/2}%)`
       })
     }
     if (orgRatio>renderedRatio) {
