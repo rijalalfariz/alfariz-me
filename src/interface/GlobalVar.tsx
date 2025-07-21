@@ -191,8 +191,8 @@ export const projects: Project[] = [
     title: 'C.F.A.S.',
     description: 'Web based platform for class face attendance system (CFAS). Used for managing attendee and monitor attendance using face recognition.',
     image: [
+      'https://res.cloudinary.com/djou33ws6/image/upload/v1753111932/8189cdd9-5a16-4208-831e-b6594a76c866.png',
       'https://res.cloudinary.com/djou33ws6/image/upload/v1752991177/CFAS_xoe7fy.png',
-      'https://res.cloudinary.com/djou33ws6/image/upload/v1753111932/8189cdd9-5a16-4208-831e-b6594a76c866.png'
     ],
     tech: ['Django', 'Dlib', 'face_recognition', 'Websocket', 'jQuery', 'Bootstrap'],
     isPrivate: false,
