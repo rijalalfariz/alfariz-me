@@ -107,7 +107,7 @@ const ProjectPopup: React.FC<ProjectPopupProps> = ({ project, isOpen, onClose })
                   <button
                     key={index}
                     onClick={() => handleImageClick(index)}
-                    className={`w-20 h-16 rounded overflow-hidden border-2 transition-all cursor-pointer ${currentImageIndex === index
+                    className={`relative w-20 h-16 rounded overflow-hidden border-2 transition-all cursor-pointer ${currentImageIndex === index
                       ? 'border-blue-500 scale-105'
                       : 'border-transparent hover:border-gray-300'
                       }`}
@@ -115,7 +115,7 @@ const ProjectPopup: React.FC<ProjectPopupProps> = ({ project, isOpen, onClose })
                     <Image
                       src={img}
                       alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="h-full object-cover"
                       fill
                     />
                   </button>
