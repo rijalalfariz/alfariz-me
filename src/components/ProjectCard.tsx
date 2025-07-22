@@ -139,7 +139,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
           {/* Tech Tags */}
           <DivTransH open={isHovered}>
-            <div className={"flex flex-wrap gap-2 my-4 transition-all w-[120%] " + (isHovered ? "opacity-100" : "opacity-0")}>
+            <div className={"flex flex-wrap gap-2 my-4 transition-all " + (isHovered ? "opacity-100" : "opacity-0")}>
               {displayTech.map((tech, index) => (
                 <span
                   key={index}
