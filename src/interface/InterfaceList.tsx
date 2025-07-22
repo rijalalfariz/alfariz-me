@@ -27,3 +27,9 @@ export interface Project {
   gitLink?: string;
   isPrivate: boolean;
 }
+
+export interface Certificate {
+  title?: string;
+  src: string;
+  certifiedBy?: string;
+}

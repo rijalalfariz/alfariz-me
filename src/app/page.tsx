@@ -10,6 +10,7 @@ import PersonalInfo from '@/components/section/PersonalInfo';
 import TechStack from '@/components/section/TechStack';
 import Signature from '@/components/section/Signature';
 import Footer from '@/components/section/Footer';
+import Certificate from '@/components/section/Certificate';
 library.add(far, fas, fab);
 
 interface Progress {
@@ -146,7 +147,7 @@ const PortfolioWebsite = () => {
   return (
     <div className="relative overflow-y-hidden">
       <div
-        className="fixed top-0 w-full h-32 mt-0 pointer-events-none z-30"
+        className="fixed top-0 w-full h-32 mt-0 pointer-events-none z-30 opacity-[0.1]"
         style={{
           background: 'linear-gradient(to bottom, #D1D1ED, transparent)',
           mixBlendMode: 'color-dodge',
@@ -162,7 +163,7 @@ const PortfolioWebsite = () => {
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[55px] z-30 backdrop-blur-[3px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[75px] z-30 backdrop-blur-[2px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] z-30 backdrop-blur-[1px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
-      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-[var(--bg-1)] to-transparent z-20 opacity-[0.1]" />
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-[var(--bg-1)] to-transparent z-20 opacity-0" />
       <Image
         id="aa"
         ref={heroRef}
@@ -242,6 +243,7 @@ const PortfolioWebsite = () => {
       <PersonalInfo />
       <TechStack />
       <Signature />
+      <Certificate />
       <Footer />
     </div>
   );

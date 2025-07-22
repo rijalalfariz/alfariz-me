@@ -1,4 +1,4 @@
-import { TechStackItem, TechStackConnection, Project } from '@/interface/InterfaceList';
+import { TechStackItem, TechStackConnection, Project, Certificate } from '@/interface/InterfaceList';
 
 export const techStacks: TechStackItem[] = [
   {
@@ -216,5 +216,23 @@ export const projects: Project[] = [
     ],
     tech: ['Bootstrap', 'jQuery', 'HTML', 'CSS'],
     isPrivate: false,
+  },
+]
+
+export const certificates: Certificate[] = [
+  {
+    src: 'https://res.cloudinary.com/djou33ws6/image/upload/v1753153792/ffac9ed7-c9f1-429f-8c8e-f292773e6c78.png',
+  },
+  {
+    src: 'https://res.cloudinary.com/djou33ws6/image/upload/v1753153831/ea337004-8d33-400c-a33c-b46f16593dce.png',
+  },
+  {
+    src: 'https://res.cloudinary.com/djou33ws6/image/upload/v1753153841/f76ab928-5365-4c50-9951-ce7174b859ab.png',
+  },
+  {
+    src: 'https://res.cloudinary.com/djou33ws6/image/upload/v1753153802/33c9aae0-a62b-4d96-b712-9079eafe0cf2.png',
+  },
+  {
+    src: 'https://res.cloudinary.com/djou33ws6/image/upload/v1753153810/011656bf-80a3-4d7b-af09-cf69dd57806e.png',
   },
 ]
