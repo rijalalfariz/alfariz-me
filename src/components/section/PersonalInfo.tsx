@@ -107,12 +107,12 @@ const PersonalInfo: React.FC = () => {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <section className="relative overflow-x-hidden">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-bold text-gray-100 whitespace-nowrap pointer-events-none select-none z-0">
-            EDUCATION
-          </div>
-          <h2 className="text-2xl font-bold relative z-10">Education</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_0_1fr] gap-10 relative">
+        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-bold text-gray-100 whitespace-nowrap pointer-events-none select-none z-0">
+          EDUCATION
+        </div> */}
+        <section className="">
+          <h2 className="text-2xl font-bold relative">Education</h2>
           <p className="mb-2 relative z-10">Politeknik Elektronika Negeri Surabaya</p>
 
           {educationData.map((edu) => (
@@ -129,12 +129,13 @@ const PersonalInfo: React.FC = () => {
                   <div className={"w-px bg-[var(--fg-9)] transition-all duration-500" + (expandedItem.includes(edu.id) ? ' h-full' : ' h-0')}></div>
                 </div>
                 <div className="flex-col">
-                  <div className="flex">
+                  <div className="flex relative">
                     <div className="flex-grow">
                       <h3 className="font-bold">{edu.degree}</h3>
                       <p className="text-xs font-bold text-[var(--mg-5)]">{edu.date}</p>
                     </div>
                     <span className="text-sm font-bold whitespace-nowrap">{edu.gpa}</span>
+                    <div className="absolute h-px w-2 bg-(--fg-9) top-2 -right-15"></div>
                   </div>
                   <DivTransH open={expandedItem.includes(edu.id)}>
                     <div className="pt-5">
@@ -142,7 +143,7 @@ const PersonalInfo: React.FC = () => {
                         <FontAwesomeIcon icon={["fas", "book"]} className="text-[var(--mg-5)] mt-1" />
                         <p className="text-sm leading-relaxed">{edu.thesis}</p>
                         <div className="grid justify-items-center grid-rows-[1fr_1fr]">
-                          <FontAwesomeIcon icon={["fas", "trophy"]} className="text-[var(--mg-5)] mt-1"/>
+                          <FontAwesomeIcon icon={["fas", "trophy"]} className="text-[var(--mg-5)] mt-1" />
                           <div className={"w-px bg-[var(--mg-5)] transition-all duration-500" + (edu.achievements.length > 1 ? ' h-full' : ' h-0')}></div>
                         </div>
                         <div className="grid">
@@ -159,11 +160,17 @@ const PersonalInfo: React.FC = () => {
           ))}
         </section>
 
-        <section className="relative overflow-x-hidden">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-bold text-gray-100 whitespace-nowrap pointer-events-none select-none z-0">
-            EXPERIENCE
-          </div>
-          <h2 className="text-2xl font-bold mb-5 relative z-10">Experience</h2>
+        <div className="z-10 flex flex-col items-center">
+          <div className="rounded-full h-2 w-2 bg-(--fg-9)"/>
+          <div className="h-full w-[1.6px] bg-(--fg-9)"/>
+          <div className="rounded-full h-2 w-2 bg-(--fg-9)"/>
+        </div>
+
+        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-bold text-gray-100 whitespace-nowrap pointer-events-none select-none z-0">
+          EXPERIENCE
+        </div> */}
+        <section className="">
+          <h2 className="text-2xl font-bold mb-5 relative">Experience</h2>
 
           {experienceData.map((exp) => (
             <div
@@ -171,7 +178,8 @@ const PersonalInfo: React.FC = () => {
               className={`trigger-speed-transition bg-white rounded-lg mb-4 cursor-pointer transition-all duration-300 relative z-10 shadow-sm hover:bg-gray-100 hover:-translate-y-0.5 hover:shadow-md`}
               onClick={() => handleItemClick(exp.id)}
             >
-              <div className="flex items-center p-5 gap-4">
+              <div className="flex p-5 gap-4 relative">
+                <div className="absolute h-px w-2 bg-(--fg-9) top-8 -left-10"></div>
                 <span className="text-2xl flex-shrink-0">
                   <FontAwesomeIcon icon={["fas", "briefcase"]} />
                 </span>
