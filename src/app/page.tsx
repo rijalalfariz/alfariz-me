@@ -49,6 +49,7 @@ const PortfolioWebsite = () => {
   });
   const [firstSectionScrollPercentage, setFirstSectionScrollPercentage] = useState(0);
   const [activeSection, setActiveSection] = useState("");
+  const [inputValue, setInputValue] = useState("Hi, I'm interested in you");
 
   const handleScroll = () => {
     const sections = ['tech-stack', 'signature', 'contact'];
@@ -144,6 +145,14 @@ const PortfolioWebsite = () => {
   }, [])
   //  [mask-image:linear-gradient(to_bottom,white,transparent)]
 
+  const handleSendEmail = () => {
+    const email = 'rijalfariz.work@gmail.com';
+    const subject = 'Message of Interest';
+    const body = inputValue;
+
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div className="relative overflow-y-hidden">
       <div
@@ -167,7 +176,7 @@ const PortfolioWebsite = () => {
       <Image
         id="aa"
         ref={heroRef}
-        className="fixed z-10"
+        className="fixed z-10 transition-all ease-[cubic-bezier(0,1,0.32,1)] duration-50"
         src="/img/me-large.png"
         width={parseInt(heroState.width?.current || '0')}
         height={parseInt(heroState.height?.current || '0')}
@@ -228,12 +237,14 @@ const PortfolioWebsite = () => {
 
           <div className="grid gap-1 justify-start items-start">
             <div className="flex rounded-full w-[360px] py-1 pl-8 pr-1 shadow-md bg-[var(--bg-1)] items-center justify-between">
-              <input className="focus:outline-none text-lg w-full" type="text" name="mail_content" id="main-content-1" value="Hi, I`m interested in you" readOnly/>
-              <div className="animate-plane-fly cursor-pointer overflow-hidden rounded-full bg-[var(--fg-9)] text-[var(--bg-1)] min-w-[48px] min-h-[48px] items-center justify-center flex">
+              <input className="focus:outline-none text-lg w-full" type="text" name="mail_content" id="main-content-1" value={inputValue} onChange={(e) => {setInputValue(e.target.value)}}/>
+              <div className="animate-plane-fly cursor-pointer overflow-hidden rounded-full bg-[var(--fg-9)] text-[var(--bg-1)] min-w-[48px] min-h-[48px] items-center justify-center flex"
+                onClick={handleSendEmail}
+              >
                 <FontAwesomeIcon className="pr-1 pb-1 transform icon" icon={["fas", "paper-plane"]} />
               </div>
             </div>
-            <a className="flex items-center gap-2 text-sm underline" href="#">My resume
+            <a className="flex items-center gap-2 text-sm underline" href="https://drive.google.com/file/d/1wI1O9ZgdxQQ8JN6FAiWaHDtBInlOBbK1/view?usp=sharing" target="_blank">My resume
               <FontAwesomeIcon icon={["fas", "up-right-from-square"]} />
             </a>
           </div>
