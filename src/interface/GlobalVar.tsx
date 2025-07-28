@@ -196,6 +196,7 @@ export const projects: Project[] = [
     ],
     tech: ['Django', 'Dlib', 'face_recognition', 'Websocket', 'jQuery', 'Bootstrap'],
     isPrivate: false,
+    gitLink: "https://github.com/rijalalfariz/face-attendance"
   },
   {
     title: 'Muatpart',
