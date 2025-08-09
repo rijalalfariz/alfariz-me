@@ -82,7 +82,7 @@ const PersonalInfo: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-10 bg-gray-50">
+    <div className="max-w-7xl mx-auto p-10">
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-5">Personal Info</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pl-5 w-1/2">

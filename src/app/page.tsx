@@ -13,40 +13,45 @@ import Footer from '@/components/section/Footer';
 import Certificate from '@/components/section/Certificate';
 library.add(far, fas, fab);
 
-interface Progress {
-  start: string;
-  current: string;
-  finish: string;
-}
-
-interface HeroState {
-  width: Progress;
-  height: Progress;
-  left: Progress;
-  top: Progress;
-  minWidth: Progress;
-  clipPath: {
-    radius: Progress;
-    x: Progress;
-    y: Progress;
-  }
-}
-
 const PortfolioWebsite = () => {
-  const heroRef = useRef(null);
-  const firstContainerRef = useRef(null);
-  const [heroState, setHeroState] = useState<HeroState>({
-    width: { start: "2150", current: "2150", finish: "184" },
-    height: { start: "1209", current: "1209", finish: "103" },
-    left: { start: "", current: "-40%", finish: "-35px" },
-    top: { start: "0", current: "0", finish: "7px" },
-    minWidth: { start: "", current: "140vw", finish: "184px" },
-    clipPath: {
-      radius: { start: "100%", current: "100%", finish: "18%" },
-      x: { start: "64%", current: "64%", finish: "51%" },
-      y: { start: "-90%", current: "-90%", finish: "30%" }
+  const heroRef = useRef<HTMLImageElement>(null);
+  const firstContainerRef = useRef<HTMLDivElement>(null); // Assuming you have this ref elsewhere
+  // const [heroState, setHeroState] = useState<HeroState>({
+  //   width: { start: "2150", current: "2150", finish: "184" },
+  //   height: { start: "1209", current: "1209", finish: "103" },
+  //   left: { start: "", current: "-40%", finish: "-35px" },
+  //   top: { start: "0", current: "0", finish: "7px" },
+  //   minWidth: { start: "", current: "140vw", finish: "184px" },
+  //   clipPath: {
+  //     radius: { start: "100%", current: "100%", finish: "18%" },
+  //     x: { start: "64%", current: "64%", finish: "51%" },
+  //     y: { start: "-90%", current: "-90%", finish: "30%" }
+  //   }
+  // });
+
+  const animationFrameId = useRef<number | null>(null);
+
+  const animationDataRef = useRef({
+    // Store the raw scroll percentage
+    scrollPercent: 0,
+    // Configuration for the animation
+    config: {
+      translateX: { start: 0, finish: 572, unit: 'px' },
+      translateY: { start: 0, finish: 7, unit: 'px' },
+      scale: { start: 1, finish: 0.085, unit: '' }, // finish scale calculated as 184 / 2150
+      clipPath: {
+        radius: { start: 100, finish: 18, unit: '%' },
+        x: { start: 64, finish: 51, unit: '%' },
+        y: { start: -90, finish: 30, unit: '%' },
+      },
+      initial: {
+        width: 2150,
+        height: 1209,
+        left: 0,
+      }
     }
   });
+
   const [firstSectionScrollPercentage, setFirstSectionScrollPercentage] = useState(0);
   const [activeSection, setActiveSection] = useState("");
   const [inputValue, setInputValue] = useState("Hi, I'm interested in you");
@@ -69,81 +74,154 @@ const PortfolioWebsite = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const initHeroState = heroState;
-  useEffect(() => {
-    if (!heroRef.current) return;
+  // const initHeroState = heroState;
+  // useEffect(() => {
+  //   if (!heroRef.current) return;
 
-    // init state
-    initHeroState.left.start = (heroRef.current as HTMLImageElement).offsetLeft + "px";
-    initHeroState.minWidth.start = (heroRef.current as HTMLImageElement).clientWidth + "px";
+  //   // init state
+  //   initHeroState.left.start = (heroRef.current as HTMLImageElement).offsetLeft + "px";
+  //   initHeroState.minWidth.start = (heroRef.current as HTMLImageElement).clientWidth + "px";
 
-    // console.log('a', initHeroState)
-    setHeroState({
-      ...heroState,
-      ...initHeroState
-    })
+  //   // console.log('a', initHeroState)
+  //   setHeroState({
+  //     ...heroState,
+  //     ...initHeroState
+  //   })
 
 
-    const handleScroll = () => {
-      if (!firstContainerRef.current) return;
-      const eHeight = (firstContainerRef.current as HTMLDivElement).clientHeight;
-      const percentage = Math.min(window.scrollY / eHeight, 1);
-      setFirstSectionScrollPercentage(percentage);
+  //   const handleScroll = () => {
+  //     if (!firstContainerRef.current) return;
+  //     const eHeight = (firstContainerRef.current as HTMLDivElement).clientHeight;
+  //     const percentage = Math.min(window.scrollY / eHeight, 1);
+  //     setFirstSectionScrollPercentage(percentage);
 
-      // Helper to interpolate between start and finish values
-      const interpolate = (start: string, finish: string) => {
-        const startNum = parseFloat(start);
-        const finishNum = parseFloat(finish);
-        const unit = start.replace(/[0-9.\-]/g, '') || finish.replace(/[0-9.\-]/g, '');
-        return (startNum + (finishNum - startNum) * percentage) + unit;
-      };
+  //     // Helper to interpolate between start and finish values
+  //     const interpolate = (start: string, finish: string) => {
+  //       const startNum = parseFloat(start);
+  //       const finishNum = parseFloat(finish);
+  //       const unit = start.replace(/[0-9.\-]/g, '') || finish.replace(/[0-9.\-]/g, '');
+  //       return (startNum + (finishNum - startNum) * percentage) + unit;
+  //     };
 
-      setHeroState(prev => ({
-        ...prev,
-        width: {
-          ...prev.width,
-          current: interpolate(prev.width.start, prev.width.finish)
-        },
-        height: {
-          ...prev.height,
-          current: interpolate(prev.height.start, prev.height.finish)
-        },
-        left: {
-          ...prev.left,
-          current: interpolate(prev.left.start, prev.left.finish)
-        },
-        top: {
-          ...prev.top,
-          current: interpolate(prev.top.start, prev.top.finish)
-        },
-        minWidth: {
-          ...prev.minWidth,
-          current: interpolate(prev.minWidth.start, prev.minWidth.finish)
-        },
-        clipPath: {
-          radius: {
-            ...prev.clipPath.radius,
-            current: interpolate(prev.clipPath.radius.start, prev.clipPath.radius.finish)
-          },
-          x: {
-            ...prev.clipPath.x,
-            current: interpolate(prev.clipPath.x.start, prev.clipPath.x.finish)
-          },
-          y: {
-            ...prev.clipPath.y,
-            current: interpolate(prev.clipPath.y.start, prev.clipPath.y.finish)
-          }
-        }
-      }));
-    }
+  //     setHeroState(prev => ({
+  //       ...prev,
+  //       width: {
+  //         ...prev.width,
+  //         current: interpolate(prev.width.start, prev.width.finish)
+  //       },
+  //       height: {
+  //         ...prev.height,
+  //         current: interpolate(prev.height.start, prev.height.finish)
+  //       },
+  //       left: {
+  //         ...prev.left,
+  //         current: interpolate(prev.left.start, prev.left.finish)
+  //       },
+  //       top: {
+  //         ...prev.top,
+  //         current: interpolate(prev.top.start, prev.top.finish)
+  //       },
+  //       minWidth: {
+  //         ...prev.minWidth,
+  //         current: interpolate(prev.minWidth.start, prev.minWidth.finish)
+  //       },
+  //       clipPath: {
+  //         radius: {
+  //           ...prev.clipPath.radius,
+  //           current: interpolate(prev.clipPath.radius.start, prev.clipPath.radius.finish)
+  //         },
+  //         x: {
+  //           ...prev.clipPath.x,
+  //           current: interpolate(prev.clipPath.x.start, prev.clipPath.x.finish)
+  //         },
+  //         y: {
+  //           ...prev.clipPath.y,
+  //           current: interpolate(prev.clipPath.y.start, prev.clipPath.y.finish)
+  //         }
+  //       }
+  //     }));
+  //   }
 
-    document.addEventListener("scroll", handleScroll);
+  //   document.addEventListener("scroll", handleScroll);
 
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    }
-  }, [])
+  //   return () => {
+  //     document.removeEventListener("scroll", handleScroll);
+  //   }
+  // }, [])
   //  [mask-image:linear-gradient(to_bottom,white,transparent)]
+
+  useEffect(() => {
+    if (!heroRef.current || !firstContainerRef.current) return;
+
+    const heroElement = heroRef.current as HTMLImageElement;
+    const scrollContainer = firstContainerRef.current;
+    const data = animationDataRef.current;
+
+    // --- 1. INITIALIZATION & PRE-CALCULATION ---
+    // Calculate dynamic start/finish values one time
+    const initialWidth = heroElement.clientWidth;
+    const initialLeft = 0;
+    const finishWidth = 184; // The final width in px
+
+    data.config.initial.width = initialWidth;
+    data.config.initial.left = initialLeft;
+    data.config.translateX.start = initialLeft;
+    data.config.scale.finish = finishWidth / initialWidth;
+
+    // --- 2. THE ANIMATION LOOP ---
+    // This function does the heavy lifting. It reads the latest scroll percentage
+    // and updates the DOM.
+    const updateAnimation = () => {
+      const { config, scrollPercent } = data;
+
+      // Simple, fast linear interpolation (lerp) function for numbers
+      const lerp = (start: number, finish: number) => start + (finish - start) * scrollPercent;
+
+      const scale = lerp(config.scale.start, config.scale.finish);
+      const translateX = lerp(config.translateX.start, config.translateX.finish);
+      const translateY = lerp(config.translateY.start, config.translateY.finish);
+
+      const clipRadius = lerp(config.clipPath.radius.start, config.clipPath.radius.finish);
+      const clipX = lerp(config.clipPath.x.start, config.clipPath.x.finish);
+      const clipY = lerp(config.clipPath.y.start, config.clipPath.y.finish);
+
+      // Apply the styles in a single pass
+      heroElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+      heroElement.style.clipPath = `circle(${clipRadius}% at ${clipX}% ${clipY}%)`;
+
+      // We're done for this frame, so clear the ID
+      animationFrameId.current = null;
+    };
+
+    // --- 3. THE SCROLL EVENT HANDLER ---
+    // This is now extremely lightweight. It only calculates the scroll percentage
+    // and requests an animation frame if one isn't already scheduled.
+    const handleScroll = () => {
+      const eHeight = scrollContainer.clientHeight;
+      data.scrollPercent = Math.min(window.scrollY / eHeight, 1);
+      setFirstSectionScrollPercentage(data.scrollPercent);
+
+      // If we don't have a frame scheduled, request one.
+      if (!animationFrameId.current) {
+        animationFrameId.current = requestAnimationFrame(updateAnimation);
+      }
+    };
+
+    // Set the initial transform origin to the top left so scaling works as expected
+    heroElement.style.transformOrigin = 'top left';
+
+    document.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
+
+  const initialData = animationDataRef.current.config.initial;
 
   const handleSendEmail = () => {
     const email = 'rijalfariz.work@gmail.com';
@@ -173,7 +251,7 @@ const PortfolioWebsite = () => {
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[75px] z-30 backdrop-blur-[2px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] z-30 backdrop-blur-[1px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
       <div className="pointer-events-none fixed top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-[var(--bg-1)] to-transparent z-20 opacity-0" />
-      <Image
+      {/* <Image
         id="aa"
         ref={heroRef}
         className="fixed z-10 transition-all ease-[cubic-bezier(0,1,0.32,1)] duration-50"
@@ -187,7 +265,29 @@ const PortfolioWebsite = () => {
           minWidth: heroState.minWidth?.current,
           clipPath: `circle(${heroState.clipPath?.radius.current} at ${heroState.clipPath?.x.current} ${heroState.clipPath?.y.current})`
         }}
+      /> */}
+      <Image
+        id="hero-image"
+        ref={heroRef}
+        className="fixed duration-2000 ease-[cubic-bezier(0.32,1,0.32,1)]"
+        src="/img/me-large.png"
+        width={initialData.width}
+        height={initialData.height}
+        alt="me"
+        style={{
+          // Set initial styles. We use `transform` from the start.
+          // Note we are not setting top/left/width/height here anymore.
+          // The browser only needs to know the initial transform.
+          left: '-40%', // Position at the edge to make transform calculations simple
+          minWidth: `${initialData.width}px`,
+          top: 0,
+          transform: `translate(${initialData.left}px, 0px) scale(1)`,
+          clipPath: `circle(100% at 64% -90%)`,
+          // The most important hint for the browser!
+          willChange: 'transform, clip-path',
+        }}
       />
+
       <div className="fixed top-0 w-full overflow-hidden z-50">
         <div className="relative flex z-50 justify-between">
           <Image
@@ -195,7 +295,7 @@ const PortfolioWebsite = () => {
             width={59}
             height={59}
             alt="me square"
-            className={"object-contain rounded-full z-10 transition-all ml-[30px] mt-[6px]" + (firstSectionScrollPercentage == 1 ? " opacity-100 delay-100 duration-300" : " opacity-0 duration-0")}
+            className={"object-contain rounded-full z-10 transition-all ml-[30px] mt-[6px]" + (firstSectionScrollPercentage == 1 ? " opacity-100 delay-1500 duration-300" : " opacity-0 duration-0")}
           />
 
           <div className="flex gap-5 nav-menu-init h-9 items-center py-3 px-5 mt-4 mx-5 bg-white/50 rounded-full backdrop-blur-sm
@@ -237,7 +337,7 @@ const PortfolioWebsite = () => {
 
           <div className="grid gap-1 justify-start items-start">
             <div className="flex rounded-full w-[360px] py-1 pl-8 pr-1 shadow-md bg-[var(--bg-1)] items-center justify-between">
-              <input className="focus:outline-none text-lg w-full" type="text" name="mail_content" id="main-content-1" value={inputValue} onChange={(e) => {setInputValue(e.target.value)}}/>
+              <input className="focus:outline-none text-lg w-full" type="text" name="mail_content" id="main-content-1" value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} />
               <div className="animate-plane-fly cursor-pointer overflow-hidden rounded-full bg-[var(--fg-9)] text-[var(--bg-1)] min-w-[48px] min-h-[48px] items-center justify-center flex"
                 onClick={handleSendEmail}
               >
@@ -251,7 +351,9 @@ const PortfolioWebsite = () => {
         </div>
       </div>
 
-      <PersonalInfo />
+      <div className="relative z-20">
+        <PersonalInfo />
+      </div>
       <TechStack />
       <Signature />
       <Certificate />
