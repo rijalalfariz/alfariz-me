@@ -38,7 +38,7 @@ const PersonalInfo: React.FC = () => {
     {
       id: 'edu2',
       degree: 'D3 - Informatics Engineering',
-      date: 'Nov 2023 - Jan 2025',
+      date: 'Aug 2018 - Aug 2021',
       gpa: 'GPA: 3.61/4.00',
       thesis: 'Thesis : Face Attendance System using Face Recognition with Normalized Convolutional Neural Network',
       achievements: [
@@ -77,7 +77,7 @@ const PersonalInfo: React.FC = () => {
     {
       id: 'exp1',
       company: 'Morning Glory Enterprise',
-      date: 'Nov 2023 - Jan 2025',
+      date: 'Nov 2023 - Apr 2025',
       position: 'Full-stack Web Developer',
       details: [
         '15-20 professionals',
