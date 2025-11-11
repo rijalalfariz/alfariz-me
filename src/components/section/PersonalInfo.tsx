@@ -50,6 +50,28 @@ const PersonalInfo: React.FC = () => {
 
   const experienceData: ExperienceItem[] = [
     {
+      id: 'exp3',
+      company: 'Profile Image Studio',
+      date: 'Jul 2025 (Currently here)',
+      position: 'Full-stack Web Developer',
+      details: [
+        'Collaborated in a team of 3 to develop an employee attendance website using face recognition technology',
+        'Led backend & front end development, design project structure and achieve face recognition accuracy score above 90%',
+        'Deliver application in 1 month sprint that impact the working efficiency of 50+ workers'
+      ]
+    },
+    {
+      id: 'exp4',
+      company: 'Cloudetica Solution (Freelance)',
+      date: 'Sep 2025 (Currently here)',
+      position: 'Full-stack Web Developer Intern',
+      details: [
+        'Collaborated in a team of 3 to develop an employee attendance website using face recognition technology',
+        'Led backend & front end development, design project structure and achieve face recognition accuracy score above 90%',
+        'Deliver application in 1 month sprint that impact the working efficiency of 50+ workers'
+      ]
+    },
+    {
       id: 'exp1',
       company: 'Morning Glory Enterprise',
       date: 'Nov 2023 - Jan 2025',
