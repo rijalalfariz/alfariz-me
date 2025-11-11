@@ -326,7 +326,7 @@ const PortfolioWebsite = () => {
         <div className="w-[55%] grid p-5 justify-start">
           <div className="relative flex items-center">
             <div className="absolute text-[72px] z-10">
-              <b>M Rijal Al Fariz</b><br />
+              <b>M Rijal Al Farizz</b><br />
               <p>Web Developer</p>
             </div>
             <div className="
