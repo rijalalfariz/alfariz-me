@@ -55,20 +55,23 @@ const PersonalInfo: React.FC = () => {
       date: 'Jul 2025 (Currently here)',
       position: 'Full-stack Web Developer',
       details: [
-        'Collaborated in a team of 3 to develop an employee attendance website using face recognition technology',
-        'Led backend & front end development, design project structure and achieve face recognition accuracy score above 90%',
-        'Deliver application in 1 month sprint that impact the working efficiency of 50+ workers'
+        'Contributed to three ongoing projects, developing responsive web applications using Angular, TypeScript, Next.js, and FastAPI, ensuring alignment with user requirements and recommendations.',
+        'Deployed applications through Docker containerization and maintained CI/CD pipelines using GitLab version control to ensure efficient and reliable delivery.',
+        'Led a team of interns, providing mentorship and guidance to help them adhere to company development standards and best practices.',
+        'Collaborated with over 15 professionals, including programmers, system analysts, and QA engineers, offering creative insights and innovative ideas to enhance product performance and quality'
       ]
     },
     {
       id: 'exp4',
       company: 'Cloudetica Solution (Freelance)',
       date: 'Sep 2025 (Currently here)',
-      position: 'Full-stack Web Developer Intern',
+      position: 'Full-stack Web Developer',
       details: [
-        'Collaborated in a team of 3 to develop an employee attendance website using face recognition technology',
-        'Led backend & front end development, design project structure and achieve face recognition accuracy score above 90%',
-        'Deliver application in 1 month sprint that impact the working efficiency of 50+ workers'
+        'Developed a construction management system tailored to client requirements and specifications.',
+        'Fixed bugs and optimized application performance to ensure system stability and reliability.',
+        'Collaborated with 20+ professionals, including system analysts and QA engineers, to maintain high development quality.',
+        'Develop and maintain application using AWS based solution e.g. App-Sync, DynamoCB, and GraphQL',
+        'Performed approval, review, and pull/merge requests through the Pull Request system as part of the Git versioning workflow maintained CI/CD pipelines',
       ]
     },
     {
@@ -183,9 +186,9 @@ const PersonalInfo: React.FC = () => {
         </section>
 
         <div className="z-10 flex flex-col items-center">
-          <div className="rounded-full h-2 w-2 bg-(--fg-9)"/>
-          <div className="h-full w-[1.6px] bg-(--fg-9)"/>
-          <div className="rounded-full h-2 w-2 bg-(--fg-9)"/>
+          <div className="rounded-full h-2 w-2 bg-(--fg-9)" />
+          <div className="h-full w-[1.6px] bg-(--fg-9)" />
+          <div className="rounded-full h-2 w-2 bg-(--fg-9)" />
         </div>
 
         {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-bold text-gray-100 whitespace-nowrap pointer-events-none select-none z-0">
