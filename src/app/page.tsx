@@ -11,7 +11,7 @@ import TechStack from '@/components/section/TechStack';
 import Signature from '@/components/section/Signature';
 import Footer from '@/components/section/Footer';
 import Certificate from '@/components/section/Certificate';
-import { getItemList } from './api/route';
+import { getItemList } from '@/helpers/APIHelper';
 library.add(far, fas, fab);
 
 const PortfolioWebsite = () => {
