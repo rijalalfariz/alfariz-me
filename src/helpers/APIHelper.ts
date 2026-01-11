@@ -18,7 +18,7 @@ export const getData = async (url: URL | string) => {
 };
 
 export const getItemList = async (endpoint: Endpoint) => {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_BASE_URL}${endpoint}/`;
   const response = await getData(url);
   return response;
 };
