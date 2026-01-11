@@ -11,6 +11,7 @@ import TechStack from '@/components/section/TechStack';
 import Signature from '@/components/section/Signature';
 import Footer from '@/components/section/Footer';
 import Certificate from '@/components/section/Certificate';
+import { getItemList } from './api/route';
 library.add(far, fas, fab);
 
 const PortfolioWebsite = () => {
@@ -55,6 +56,20 @@ const PortfolioWebsite = () => {
   const [firstSectionScrollPercentage, setFirstSectionScrollPercentage] = useState(0);
   const [activeSection, setActiveSection] = useState("");
   const [inputValue, setInputValue] = useState("Hi, I'm interested in you");
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await getItemList("users");
+        const data = await response.json();
+        setUserName(data.results[0].name);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const handleScroll = () => {
     const sections = ['tech-stack', 'signature', 'contact'];
@@ -326,7 +341,7 @@ const PortfolioWebsite = () => {
         <div className="w-[55%] grid p-5 justify-start">
           <div className="relative flex items-center">
             <div className="absolute text-[72px] z-10">
-              <b>M Rijal Al Fariz</b><br />
+              <b>{userName}M Rijal Al Fariz</b><br />
               <p>Web Developer</p>
             </div>
             <div className="
