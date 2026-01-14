@@ -59,16 +59,16 @@ const PortfolioWebsite = () => {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await getItemList("users");
-        const data = await response.json();
-        setUserName(data.results[0].name);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    fetchUserData();
+    // const fetchUserData = async () => {
+    //   try {
+    //     const response = await getItemList("users");
+    //     const data = await response.json();
+    //     setUserName(data.results[0].name);
+    //   } catch (error) {
+    //     console.error("Failed to fetch user data:", error);
+    //   }
+    // };
+    // fetchUserData();
   }, []);
 
   const handleScroll = () => {
@@ -176,24 +176,29 @@ const PortfolioWebsite = () => {
     // Calculate dynamic start/finish values one time
     const initialWidth = heroElement.clientWidth;
     const initialLeft = 0;
-    const finishWidth = 184; // The final width in px
+    const finishWidth = (184/1920)*document.body.clientWidth; // The final width in px
 
     data.config.initial.width = initialWidth;
     data.config.initial.left = initialLeft;
     data.config.translateX.start = initialLeft;
-    data.config.scale.finish = finishWidth / initialWidth;
+    data.config.scale.finish = 0.085*(1536/document.body.clientWidth);
 
     // --- 2. THE ANIMATION LOOP ---
     // This function does the heavy lifting. It reads the latest scroll percentage
     // and updates the DOM.
     const updateAnimation = () => {
       const { config, scrollPercent } = data;
+      console.log('scrollPercent', scrollPercent);
 
       // Simple, fast linear interpolation (lerp) function for numbers
-      const lerp = (start: number, finish: number) => start + (finish - start) * scrollPercent;
+      const lerp = (start: number, finish: number) => {
+        return start + (finish - start) * scrollPercent
+      };
 
       const scale = lerp(config.scale.start, config.scale.finish);
-      const translateX = lerp(config.translateX.start, config.translateX.finish);
+      console.log('config.scale.finish', config.scale.finish);
+      console.log('scale', scale);
+      const translateX = lerp(config.translateX.start, document.body.clientWidth/2.5-36);
       const translateY = lerp(config.translateY.start, config.translateY.finish);
 
       const clipRadius = lerp(config.clipPath.radius.start, config.clipPath.radius.finish);
@@ -203,7 +208,8 @@ const PortfolioWebsite = () => {
       // Apply the styles in a single pass
       heroElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
       heroElement.style.clipPath = `circle(${clipRadius}% at ${clipX}% ${clipY}%)`;
-
+      heroElement.style.minWidth = `${(2150/1536) * document.body.clientWidth}px`;
+      // heroElement.style.opacity = `1`;
       // We're done for this frame, so clear the ID
       animationFrameId.current = null;
     };
@@ -224,6 +230,7 @@ const PortfolioWebsite = () => {
 
     // Set the initial transform origin to the top left so scaling works as expected
     heroElement.style.transformOrigin = 'top left';
+    handleScroll();
 
     document.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -236,7 +243,10 @@ const PortfolioWebsite = () => {
     };
   }, []);
 
-  const initialData = animationDataRef.current.config.initial;
+  const initialData = {...animationDataRef.current.config.initial,
+    // minWidth: (2150/1536) * document.body.clientWidth,
+  };
+  // console.log('body width', document.body.clientWidth);
 
   const handleSendEmail = () => {
     const email = 'rijalfariz.work@gmail.com';
@@ -294,12 +304,13 @@ const PortfolioWebsite = () => {
           // Note we are not setting top/left/width/height here anymore.
           // The browser only needs to know the initial transform.
           left: '-40%', // Position at the edge to make transform calculations simple
-          minWidth: `${initialData.width}px`,
+          minWidth: `0px`,
           top: 0,
-          transform: `translate(${initialData.left}px, 0px) scale(1)`,
-          clipPath: `circle(100% at 64% -90%)`,
+          transform: `translate(500px, 0px) scale(1)`,
+          clipPath: `circle(10% at 64% -90%)`,
+          // opacity: `0`,
           // The most important hint for the browser!
-          willChange: 'transform, clip-path',
+          willChange: 'transform, clip-path, opacity',
         }}
       />
 
