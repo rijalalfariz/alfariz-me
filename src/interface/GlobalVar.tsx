@@ -218,6 +218,57 @@ export const projects: Project[] = [
     tech: ['Bootstrap', 'jQuery', 'HTML', 'CSS'],
     isPrivate: false,
   },
+  {
+    title: 'Dashboard Executive Pemprov Jawa Timur',
+    description: 'Platform to display dataset in graphics interface. Allowing users to view briefly about datasets uploaded by OPD (regional autonomy apparatus). Has multiple user levels and permissions.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573828/image_2_mfhjvq.jpg',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573829/image_x8f47e.jpg',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573827/image_1_gug6e9.jpg'
+    ],
+    tech: ['Metabase', 'React.js', 'Next.js', 'Nest.js', 'Postgresql', 'Docker', 'SSO auth'],
+    isPrivate: false,
+  },
+  {
+    title: 'Dashboard Monitoring Monev',
+    description: 'Just like Dashboard Executive Pemprov Jawa Timur, a platform to display dataset in graphics interface, but its more general and with different point-of view. Allowing users to view briefly about datasets uploaded by OPD (regional autonomy apparatus) and OPD scores with the data they have. Also has multiple user levels and permissions.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573757/image_pys7pc.jpg',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573795/WhatsApp_Image_2026-01-16_at_21.29.33_nvek4r.jpg'
+    ],
+    tech: ['Metabase', 'React.js', 'Next.js', 'Nest.js', 'Postgresql', 'Docker', 'SSO auth'],
+    isPrivate: false,
+  },
+  {
+    title: 'Satu Data Pemprov Jawa Timur',
+    description: 'Platform to manage dataset from regional autonomy apparatus and displays the datasets to the public (opendata). Featuring data approval from multiple user levels and data quality score monitoring for each dataset created.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768572868/image_ma7tq2.jpg',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768572710/WhatsApp_Image_2026-01-16_at_21.11.09_nohlfp.jpg'
+    ],
+    tech: ['Angular', 'FastAPI', 'Postgresql', 'Pandas', 'Docker', 'sqlAlchemy', 'Python', 'Node js'],
+    isPrivate: false,
+  },
+  {
+    title: 'Portal Data Jawa Timur',
+    description: 'Simple Landing page to direct users to all platforms created by Jatim Government. The platform includes Open Data, Satu Data, Satu Peta, and Dashboard Publik. Each platform has its own service and features.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573882/data_jatim_fzcpcc.jpg',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573881/data_jatim_2_al2e31.jpg'
+    ],
+    tech: ['Bootstrap', 'HTML', 'CSS', 'Next js'],
+    isPrivate: false,
+  },
+  {
+    title: 'Bolt Construction Tech SaaS',
+    description: 'A platform to manage construction related features including RFI, Action Items, Submittals, Drawing, and file managements. It has multiple user levels and permissions such as, project admin, manager, design teams, and general constructor. This platform also features a pdf editor and drawing. Allowing users to attach and customize their attachment on certain menus.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573892/image_rv4ml8.png',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573891/image_1_piqnlt.jpg'
+    ],
+    tech: ['React Navite', 'Nest js', 'Node js', 'AWS S3 Bucket', 'AWS Appsync', 'AWS GraphQL', 'AWS Dynamo DB', 'PostgreSQL'],
+    isPrivate: true,
+  },
 ]
 
 export const certificates: Certificate[] = [
