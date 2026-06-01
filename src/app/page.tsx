@@ -370,7 +370,7 @@ const PortfolioWebsite = () => {
                 <FontAwesomeIcon className="pr-1 pb-1 transform icon" icon={["fas", "paper-plane"]} />
               </div>
             </div>
-            <a className="flex items-center gap-2 text-sm underline" href="https://drive.google.com/file/d/1wI1O9ZgdxQQ8JN6FAiWaHDtBInlOBbK1/view?usp=sharing" target="_blank">My resume
+            <a className="flex items-center gap-2 text-sm underline" href="https://drive.google.com/file/d/1QBXf13Lu4Z7iZcqYqqd9Dn0AQB5wdvd6/view?usp=sharing" target="_blank">My resume
               <FontAwesomeIcon icon={["fas", "up-right-from-square"]} />
             </a>
           </div>
