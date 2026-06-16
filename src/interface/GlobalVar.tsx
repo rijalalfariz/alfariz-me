@@ -112,7 +112,7 @@ export const techStacks: TechStackItem[] = [
     key: "git",
     icon: "git",
     name: "Git",
-    proficiency: 0.7
+    proficiency: 0.8
   },
   {
     key: "figma",
@@ -120,6 +120,12 @@ export const techStacks: TechStackItem[] = [
     name: "Figma",
     proficiency: 0.85
   },
+  {
+    key: "aws",
+    icon: "aws",
+    name: "AWS",
+    proficiency: 0.7
+  }
 ];
 
 export const techStackConns: TechStackConnection[] = [
@@ -262,6 +268,16 @@ export const projects: Project[] = [
   {
     title: 'Bolt Construction Tech SaaS',
     description: 'A platform to manage construction related features including RFI, Action Items, Submittals, Drawing, and file managements. It has multiple user levels and permissions such as, project admin, manager, design teams, and general constructor. This platform also features a pdf editor and drawing. Allowing users to attach and customize their attachment on certain menus.',
+    image: [
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573892/image_rv4ml8.png',
+      'https://res.cloudinary.com/dswhxavef/image/upload/v1768573891/image_1_piqnlt.jpg'
+    ],
+    tech: ['React Navite', 'Nest js', 'Node js', 'AWS S3 Bucket', 'AWS Appsync', 'AWS GraphQL', 'AWS Dynamo DB', 'PostgreSQL'],
+    isPrivate: true,
+  },
+  {
+    title: 'Plexapro',
+    description: 'Plexa is an all-in-one construction management platform built to simplify and digitize the entire project lifecycle. From budgeting, tendering, and document control to site management and financial operations. Plexa also integrated with advanced AI capabilities—including image analysis, document processing, and automated invoice generation. Trusted by construction companies across Australia, Plexa helps teams deliver projects more efficiently, accurately, and at scale.',
     image: [
       'https://res.cloudinary.com/dswhxavef/image/upload/v1768573892/image_rv4ml8.png',
       'https://res.cloudinary.com/dswhxavef/image/upload/v1768573891/image_1_piqnlt.jpg'
