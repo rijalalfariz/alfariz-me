@@ -264,115 +264,6 @@ function MessageBubble({ message }: { message: Message }) {
   );
 }
 
-// ── Settings modal ───────────────────────────────────────────────────────────
-
-function SettingsModal({
-  onClose, apiKey, setApiKey,
-}: {
-  onClose: () => void;
-  apiKey: string;
-  setApiKey: (key: string) => void;
-}) {
-  const [draft, setDraft] = useState(apiKey);
-  const [show, setShow] = useState(false);
-
-  const save = () => {
-    setApiKey(draft.trim());
-    localStorage.setItem('glm_api_key', draft.trim());
-    onClose();
-  };
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <motion.div
-        initial={{ scale: 0.96, opacity: 0, y: 8 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.96, opacity: 0 }}
-        transition={{ duration: 0.18 }}
-        className="bg-zinc-900 border border-white/[0.08] rounded-2xl w-full max-w-md p-6 shadow-2xl"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-semibold text-white">Settings</h2>
-          <button
-            onClick={onClose}
-            className="text-zinc-500 hover:text-zinc-300 transition-colors p-1 rounded-lg hover:bg-white/5"
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="space-y-5">
-          <div>
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2 block">
-              NVIDIA API Key
-            </label>
-            <div className="relative">
-              <input
-                type={show ? 'text' : 'password'}
-                value={draft}
-                onChange={e => setDraft(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && save()}
-                placeholder="nvapi-••••••••••••••••••••"
-                className="w-full bg-black/40 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-500/60 focus:border-indigo-500/40 pr-16 transition-all"
-              />
-              <button
-                onClick={() => setShow(v => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-600 hover:text-zinc-400 transition-colors px-1"
-              >
-                {show ? 'Hide' : 'Show'}
-              </button>
-            </div>
-            <p className="text-xs text-zinc-700 mt-2">
-              Stored only in your browser's localStorage — never leaves your device.
-            </p>
-          </div>
-
-          <div>
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2 block">
-              Model
-            </label>
-            <div className="flex items-center gap-2 bg-black/30 border border-white/[0.06] rounded-xl px-4 py-3">
-              <span className="text-sm text-zinc-400 font-mono">z-ai/glm-5.1</span>
-              <span className="ml-auto text-xs text-emerald-500/70 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                thinking
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2 block">
-              Endpoint
-            </label>
-            <div className="bg-black/30 border border-white/[0.06] rounded-xl px-4 py-3">
-              <span className="text-xs text-zinc-600 font-mono break-all">
-                https://integrate.api.nvidia.com/v1
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-3 mt-6">
-          <button
-            onClick={onClose}
-            className="flex-1 py-2.5 rounded-xl border border-white/[0.08] text-zinc-400 text-sm hover:bg-white/5 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={save}
-            className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors shadow-lg shadow-indigo-900/30"
-          >
-            Save
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
 // ── Starter prompts ──────────────────────────────────────────────────────────
 
 const STARTERS = [
@@ -389,19 +280,11 @@ export default function ChatPage() {
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [apiKey, setApiKey] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-
-  // ── Load API key ──
-  useEffect(() => {
-    const saved = localStorage.getItem('glm_api_key');
-    if (saved) setApiKey(saved);
-  }, []);
 
   const activeConv = conversations.find(c => c.id === activeConvId) ?? null;
   const messages = activeConv?.messages ?? [];
@@ -436,11 +319,6 @@ export default function ChatPage() {
   const sendMessage = useCallback(async (overrideInput?: string) => {
     const text = (overrideInput ?? input).trim();
     if (!text || isLoading) return;
-
-    if (!apiKey) {
-      setShowSettings(true);
-      return;
-    }
 
     // Resolve or create conversation
     let convId = activeConvId;
@@ -492,7 +370,6 @@ export default function ChatPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: 'z-ai/glm-5.1',
@@ -577,7 +454,7 @@ export default function ChatPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, apiKey, activeConvId, activeConv, updateMessages]);
+  }, [input, isLoading, activeConvId, activeConv, updateMessages]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -663,16 +540,11 @@ export default function ChatPage() {
             {/* Settings */}
             <div className="p-3 border-t border-white/[0.05]">
               <button
-                onClick={() => setShowSettings(true)}
+                onClick={() => {}}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-zinc-500 hover:bg-white/[0.05] hover:text-zinc-300 transition-colors"
               >
                 <Settings size={15} />
                 Settings
-                {!apiKey && (
-                  <span className="ml-auto text-xs text-amber-500/70 bg-amber-500/10 px-1.5 py-0.5 rounded-full border border-amber-500/20">
-                    setup
-                  </span>
-                )}
               </button>
             </div>
           </motion.aside>
@@ -725,15 +597,6 @@ export default function ChatPage() {
                 <p className="text-lg font-semibold text-zinc-200">GLM 5.1</p>
                 <p className="text-sm text-zinc-600 mt-1">Thinking model · Powered by NVIDIA</p>
               </div>
-
-              {!apiKey && (
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="text-sm text-amber-400/80 border border-amber-500/20 bg-amber-500/5 px-4 py-2 rounded-xl hover:bg-amber-500/10 transition-colors"
-                >
-                  ⚠ Add your API key to get started
-                </button>
-              )}
 
               <div className="grid grid-cols-2 gap-2 max-w-sm w-full mt-1">
                 {STARTERS.map(s => (
@@ -797,17 +660,6 @@ export default function ChatPage() {
           </div>
         </div>
       </div>
-
-      {/* Settings modal */}
-      <AnimatePresence>
-        {showSettings && (
-          <SettingsModal
-            onClose={() => setShowSettings(false)}
-            apiKey={apiKey}
-            setApiKey={setApiKey}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
