@@ -6,8 +6,19 @@ import {
   Trash2, Plus, Sparkles, Copy, Check, Menu,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FileExplorer } from '@/components/FileExplorer';
+import { useGoogleSheets } from '@/hooks/useGoogleSheets';
+import type { SelectedDriveFile } from '@/types/drive';
+import { formatSheetForAI } from '@/lib/formatSheetForAI';
+import { parseSheetEdits } from '@/lib/parseSheetEdits';
 
 // ── Types ────────────────────────────────────────────────────────────────────
+export interface AppliedEdit {
+  spreadsheetId: string;
+  sheetName: string;
+  rangeCount: number;
+  error?: string;
+}
 
 interface Message {
   id: string;
@@ -273,6 +284,40 @@ const STARTERS = [
   { icon: '🔍', label: 'Deep analysis', prompt: 'Analyse the trade-offs between REST and GraphQL in detail' },
 ];
 
+// ─── System prompt the AI uses to know the edit format ─────────────────────────
+function buildSystemPrompt(sheetContextBlock: string): string {   // ← NEW
+  return `\
+You are a helpful assistant with access to the user's Google Spreadsheet data below.
+ 
+When the user asks you to EDIT or MODIFY a spreadsheet, include your changes at the
+END of your response inside a fenced \`\`\`sheet_edit block using this exact JSON format:
+ 
+\`\`\`sheet_edit
+{
+  "edits": [
+    {
+      "spreadsheetId": "<id from the context>",
+      "updates": [
+        { "range": "Sheet1!A2:C2", "values": [["value1", "value2", "value3"]] }
+      ]
+    }
+  ]
+}
+\`\`\`
+ 
+Rules:
+- Use A1 notation for ranges (e.g. "Sheet1!B2:D5").
+- "values" is a 2-D array: outer array = rows, inner array = columns.
+- Only include the \`\`\`sheet_edit block when you are actually making changes.
+- Do NOT include it for read-only answers or analysis.
+- You may include multiple edits across different spreadsheets in one block.
+- Explain your changes in plain text BEFORE the block.
+ 
+--- SPREADSHEET DATA ---
+ 
+${sheetContextBlock}`;
+}
+
 // ── Main page ────────────────────────────────────────────────────────────────
 
 export default function ChatPage() {
@@ -288,6 +333,14 @@ export default function ChatPage() {
 
   const activeConv = conversations.find(c => c.id === activeConvId) ?? null;
   const messages = activeConv?.messages ?? [];
+
+  const [selectedFiles, setSelectedFiles] = useState<SelectedDriveFile[]>([]);
+  const [isFetchingSheets, setIsFetchingSheets] = useState(false);
+  const { getSheetContent, editSheet } = useGoogleSheets();
+
+  const [appliedEdits, setAppliedEdits] = useState<AppliedEdit[]>([]);
+  const [startCheckForEditSheet, setStartCheckForEditSheet] = useState(false);  // ← NEW: trigger to check for edits
+  const [checkedSheetAssistantId, setCheckedSheetAssistantId] = useState('')
 
   // ── Auto-scroll ──
   useEffect(() => {
@@ -309,6 +362,70 @@ export default function ChatPage() {
     );
   }, []);
 
+  useEffect(() => {
+    if (!startCheckForEditSheet) return;
+    const startCheckSheet = async () => {
+      let convId = activeConvId;
+      const assistantId = checkedSheetAssistantId;
+      // ── NEW: after stream ends, parse edits from the full response ─────────────
+      // Get the final accumulated content
+      let finalContent = '';
+      // setConversations(prev => {
+      const conv = conversations.find(c => c.id === convId);
+      console.log('conv', conv)
+      const msg = conv?.messages.find(m => m.id === assistantId);
+      console.log('msg', msg)
+      finalContent = msg?.content ?? '';
+      //   return prev;
+      // });
+  
+      const { edits, cleanContent } = parseSheetEdits(finalContent);
+  
+      console.log('edits', edits)
+      console.log('cleanContent', cleanContent)
+  
+      // Strip the JSON block from the displayed message
+      if (edits.length > 0) {
+        updateMessages(convId!, msgs =>
+          msgs.map(m => m.id === assistantId ? { ...m, content: cleanContent } : m)
+        );
+  
+        // Apply each edit instruction
+        const editResults: AppliedEdit[] = await Promise.all(
+          edits.map(async (instruction) => {
+            const file = selectedFiles.find(f => f.id === instruction.spreadsheetId);
+            try {
+              await editSheet(instruction.spreadsheetId, instruction.updates);
+              return {
+                spreadsheetId: instruction.spreadsheetId,
+                sheetName: file?.name ?? instruction.spreadsheetId,
+                rangeCount: instruction.updates.length,
+              };
+            } catch (e: any) {
+              return {
+                spreadsheetId: instruction.spreadsheetId,
+                sheetName: file?.name ?? instruction.spreadsheetId,
+                rangeCount: 0,
+                error: e.message,
+              };
+            }
+          })
+        );
+  
+        setAppliedEdits(editResults);
+      }
+      // ── end NEW ──────────────────────────────────────────────────────────────
+  
+      updateMessages(convId!, msgs =>
+        msgs.map(m => m.id === assistantId ? { ...m, isStreaming: false } : m)
+      );
+      setStartCheckForEditSheet(false);
+      setCheckedSheetAssistantId('');
+    }
+
+    startCheckSheet()
+  }, [startCheckForEditSheet, activeConvId, conversations, selectedFiles, editSheet, updateMessages, checkedSheetAssistantId]);
+
   const newConversation = useCallback(() => {
     const id = Date.now().toString();
     setConversations(prev => [{ id, title: 'New chat', messages: [] }, ...prev]);
@@ -320,7 +437,7 @@ export default function ChatPage() {
     const text = (overrideInput ?? input).trim();
     if (!text || isLoading) return;
 
-    // Resolve or create conversation
+    // ── Resolve / create conversation (unchanged) ───────────────────────────────
     let convId = activeConvId;
     let prevMessages: Message[] = activeConv?.messages ?? [];
 
@@ -331,7 +448,6 @@ export default function ChatPage() {
       setActiveConvId(convId);
       prevMessages = [];
     } else if (prevMessages.length === 0) {
-      // Update title for conversation created via "New chat" button
       const title = text.slice(0, 48) + (text.length > 48 ? '…' : '');
       setConversations(prev =>
         prev.map(c => c.id === convId ? { ...c, title } : c)
@@ -347,8 +463,9 @@ export default function ChatPage() {
 
     setInput('');
     setIsLoading(true);
+    setAppliedEdits([]);  // ← NEW: clear previous edit results
+    setCheckedSheetAssistantId(assistantId)
 
-    // Optimistically add both messages
     setConversations(prev =>
       prev.map(c =>
         c.id === convId
@@ -357,20 +474,49 @@ export default function ChatPage() {
       )
     );
 
-    const apiMessages = [
-      ...prevMessages.map(m => ({ role: m.role, content: m.content })),
-      { role: 'user' as const, content: text },
-    ];
+    // ── Fetch selected sheet contents ────────────────────────────────────────────
+    let sheetContextBlock = '';
 
+    if (selectedFiles.length > 0) {
+      setIsFetchingSheets(true);
+      try {
+        const results = await Promise.allSettled(
+          selectedFiles.map(f => getSheetContent(f.id))
+        );
+        sheetContextBlock = results
+          .map((r, i) =>
+            r.status === 'fulfilled'
+              ? formatSheetForAI(r.value)
+              : `## Spreadsheet: "${selectedFiles[i].name}"\n(Could not load: ${r.reason?.message})`
+          )
+          .join('\n\n---\n\n');
+      } finally {
+        setIsFetchingSheets(false);
+      }
+    }
+
+    // ── Build API messages ───────────────────────────────────────────────────────
+    const apiMessages: { role: 'system' | 'user' | 'assistant'; content: string }[] = [];
+
+    if (sheetContextBlock) {
+      apiMessages.push({
+        role: 'system',
+        content: buildSystemPrompt(sheetContextBlock),  // ← NEW: includes edit instructions
+      });
+    }
+
+    apiMessages.push(
+      ...prevMessages.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+      { role: 'user' as const, content: text },
+    );
+
+    // ── Stream the response (unchanged) ─────────────────────────────────────────
     try {
       abortRef.current = new AbortController();
 
-      // const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
-      const response = await fetch("/api/chat", {
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'z-ai/glm-5.1',
           messages: apiMessages,
@@ -426,16 +572,12 @@ export default function ChatPage() {
                 )
               );
             }
-          } catch {
-            // Malformed chunk — skip
-          }
+          } catch { /* malformed chunk */ }
         }
       }
 
-      // Mark done
-      updateMessages(convId!, msgs =>
-        msgs.map(m => m.id === assistantId ? { ...m, isStreaming: false } : m)
-      );
+      setStartCheckForEditSheet(true);  // ← NEW: trigger to check for edits after streaming
+
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') {
         updateMessages(convId!, msgs =>
@@ -454,7 +596,10 @@ export default function ChatPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, activeConvId, activeConv, updateMessages]);
+  }, [
+    input, isLoading, activeConvId, activeConv, updateMessages,
+    selectedFiles, getSheetContent, editSheet, conversations
+  ]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -495,6 +640,8 @@ export default function ChatPage() {
               </div>
             </div>
 
+            <FileExplorer onSelectionChange={setSelectedFiles} className="w-full" />
+
             {/* New chat */}
             <div className="px-3 pt-3 pb-1">
               <button
@@ -507,7 +654,7 @@ export default function ChatPage() {
             </div>
 
             {/* Conversation list */}
-            <div className="flex-1 overflow-y-auto px-3 py-1 space-y-0.5">
+            <div className="flex-1 overflow-y-auto px-3 py-1 space-y-0.5 min-h-[30%]">
               {conversations.length === 0 && (
                 <p className="text-xs text-zinc-700 text-center py-8 px-4">
                   Start a conversation to see it here
@@ -522,8 +669,8 @@ export default function ChatPage() {
                   exit={{ opacity: 0, x: -8 }}
                   onClick={() => setActiveConvId(conv.id)}
                   className={`group flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm transition-colors ${activeConvId === conv.id
-                      ? 'bg-white/[0.08] text-zinc-200'
-                      : 'text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-300'
+                    ? 'bg-white/[0.08] text-zinc-200'
+                    : 'text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-300'
                     }`}
                 >
                   <span className="flex-1 truncate leading-snug">{conv.title}</span>
@@ -540,7 +687,7 @@ export default function ChatPage() {
             {/* Settings */}
             <div className="p-3 border-t border-white/[0.05]">
               <button
-                onClick={() => {}}
+                onClick={() => { }}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-zinc-500 hover:bg-white/[0.05] hover:text-zinc-300 transition-colors"
               >
                 <Settings size={15} />
@@ -628,31 +775,41 @@ export default function ChatPage() {
         <div className="flex-shrink-0 p-4 border-t border-white/[0.06]">
           <div className="max-w-2xl mx-auto">
             <div
-              className={`flex gap-3 items-end bg-zinc-900/80 border rounded-2xl px-4 py-3 transition-all ${isLoading
-                  ? 'border-white/[0.05]'
-                  : 'border-white/[0.08] focus-within:border-indigo-500/40 focus-within:shadow-lg focus-within:shadow-indigo-900/20'
+              className={`flex flex-col gap-3 items-end bg-zinc-900/80 border rounded-2xl px-4 py-3 transition-all ${isLoading
+                ? 'border-white/[0.05]'
+                : 'border-white/[0.08] focus-within:border-indigo-500/40 focus-within:shadow-lg focus-within:shadow-indigo-900/20'
                 }`}
             >
-              <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Message GLM 5.1…"
-                rows={1}
-                disabled={isLoading}
-                className="flex-1 bg-transparent text-sm text-zinc-200 placeholder:text-zinc-700 resize-none outline-none max-h-48 disabled:opacity-40 leading-relaxed"
-              />
-              <button
-                onClick={() => sendMessage()}
-                disabled={!input.trim() || isLoading}
-                className="w-8 h-8 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-zinc-800 disabled:text-zinc-700 text-white flex items-center justify-center transition-all flex-shrink-0 shadow-lg shadow-indigo-900/20 disabled:shadow-none"
-              >
-                {isLoading
-                  ? <span className="w-3 h-3 border-2 border-zinc-600 border-t-zinc-400 rounded-full animate-spin" />
-                  : <Send size={14} />
-                }
-              </button>
+              <div className="flex justify-between w-full">
+                {selectedFiles.length > 0 && (
+                  <div className="text-xs text-emerald-400 self-start mr-auto">
+                    {selectedFiles.length} sheet{selectedFiles.length > 1 ? 's' : ''} in context
+                  </div>
+                )}
+                {isFetchingSheets && <div className="text-xs text-[#858585]">Loading sheets…</div>}
+              </div>
+              <div className="flex gap-3 items-end w-full">
+                <textarea
+                  ref={textareaRef}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Message GLM 5.1…"
+                  rows={1}
+                  disabled={isLoading}
+                  className="flex-1 bg-transparent text-sm text-zinc-200 placeholder:text-zinc-700 resize-none outline-none max-h-48 disabled:opacity-40 leading-relaxed"
+                />
+                <button
+                  onClick={() => sendMessage()}
+                  disabled={!input.trim() || isLoading}
+                  className="w-8 h-8 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-zinc-800 disabled:text-zinc-700 text-white flex items-center justify-center transition-all flex-shrink-0 shadow-lg shadow-indigo-900/20 disabled:shadow-none"
+                >
+                  {isLoading
+                    ? <span className="w-3 h-3 border-2 border-zinc-600 border-t-zinc-400 rounded-full animate-spin" />
+                    : <Send size={14} />
+                  }
+                </button>
+              </div>
             </div>
             <p className="text-center text-xs text-zinc-800 mt-2">
               Enter to send · Shift+Enter for new line
