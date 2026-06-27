@@ -125,6 +125,27 @@ export const techStacks: TechStackItem[] = [
     icon: "aws",
     name: "AWS",
     proficiency: 0.7
+  },
+  {
+    key: "docker",
+    icon: "docker",
+    name: "Docker",
+    proficiency: 0.7
+  },
+  {
+    key: "dynamodb",
+    name: "DynamoDB",
+    proficiency: 0.65
+  },
+  {
+    key: "fastapi",
+    name: "FastAPI",
+    proficiency: 0.7
+  },
+  {
+    key: "react-native",
+    name: "React Native",
+    proficiency: 0.7
   }
 ];
 
@@ -136,7 +157,7 @@ export const techStackConns: TechStackConnection[] = [
   { from: "react", to: "node" },
   { from: "react", to: "next" },
   { from: "react", to: "ts" },
-  { from: "react", to: "react" },
+  { from: "react", to: "react-native" },
   { from: "html", to: "next" },
   { from: "html", to: "css" },
   { from: "html", to: "js" },
@@ -149,6 +170,13 @@ export const techStackConns: TechStackConnection[] = [
   { from: "mysql", to: "postgresql" },
   { from: "python", to: "django" },
   { from: "python", to: "tensorflow" },
+  { from: "python", to: "fastapi" },
+  { from: "node", to: "docker" },
+  { from: "docker", to: "aws" },
+  { from: "aws", to: "dynamodb" },
+  { from: "postgresql", to: "fastapi" },
+  { from: "django", to: "postgresql" },
+  { from: "react-native", to: "ts" },
 ];
 
 export const projects: Project[] = [

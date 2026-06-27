@@ -15,7 +15,7 @@ const TechStack: React.FC = () => {
         <p>The technologies I use to bring ideas to life. Bricks of skill that represent the hall of proficiency.</p>
       </div>
 
-      <div ref={ref} className={"h-[500px] relative m-5 transition-all duration-1000 ease-out delay-300 "+ (isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.5]')}>
+      <div ref={ref} className={"h-[600px] relative m-5 transition-all duration-1000 ease-out delay-300 "+ (isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.5]')}>
         <h1 className="text-8xl text-(--bg-2) absolute left-[15%] top-[10%] font-bold">FRONTEND</h1>
         <h1 className="text-8xl text-(--bg-2) absolute left-[55%] top-[60%] font-bold">BACKEND</h1>
         {techStackConns.map((v, idx) => (
@@ -27,20 +27,25 @@ const TechStack: React.FC = () => {
         <TechStackBox techKey="css" className="left-[14%] top-[14%]" />
         <TechStackBox techKey="next" className="left-[44%] top-[18%]" />
         <TechStackBox techKey="bootstrap" className="left-[27%] top-[20%]" />
+        <TechStackBox techKey="react-native" className="left-[68%] top-[22%]" />
         <TechStackBox techKey="react" className="left-[59%] top-[35%]" />
         <TechStackBox techKey="node" className="left-[75%] top-[41%]" />
         <TechStackBox techKey="jquery" className="left-[45%] top-[43%]" />
         <TechStackBox techKey="tailwindcss" className="left-[18%] top-[45%]" />
         <TechStackBox techKey="git" className="left-[29%] top-[51%]" />
+        <TechStackBox techKey="docker" className="left-[8%] top-[55%]" />
         <TechStackBox techKey="python" className="left-[55%] top-[55%]" />
         <TechStackBox techKey="php" className="left-[66%] top-[60%]" />
         <TechStackBox techKey="tensorflow" className="left-[40%] top-[62%]" />
+        <TechStackBox techKey="fastapi" className="left-[42%] top-[70%]" />
         <TechStackBox techKey="silverstripe" className="left-[78%] top-[65%]" />
         <TechStackBox techKey="figma" className="left-[16%] top-[70%]" />
         <TechStackBox techKey="django" className="left-[52%] top-[76%]" />
         <TechStackBox techKey="mysql" className="left-[30%] top-[82%]" />
+        <TechStackBox techKey="aws" className="left-[8%] top-[80%]" />
         <TechStackBox techKey="laravel" className="left-[65%] top-[85%]" />
-        <TechStackBox techKey="posgresql" className="left-[40%] top-[90%]" />
+        <TechStackBox techKey="postgresql" className="left-[40%] top-[90%]" />
+        <TechStackBox techKey="dynamodb" className="left-[20%] top-[92%]" />
       </div>
     </div>
   );
