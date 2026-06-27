@@ -50,6 +50,19 @@ const PersonalInfo: React.FC = () => {
 
   const experienceData: ExperienceItem[] = [
     {
+      id: 'exp5',
+      company: 'PT. Skyshi Digital Indonesia',
+      date: 'Feb 2026 - Present',
+      position: 'Front End Developer',
+      details: [
+        'Collaborated with international clients to improve product usability and deliver high-quality UI web application.',
+        'Developed a production-ready construction management system tailored to client requirements and specifications.',
+        'Fixed bugs and optimized application performance to ensure system stability and reliability.',
+        'Collaborated with 40+ professionals, including system analysts and QA engineers, to maintain high development quality.',
+        'Performed approval, review, and pull/merge requests through the Pull Request system as part of the Git versioning workflow and maintained CI/CD pipelines',
+      ]
+    },
+    {
       id: 'exp3',
       company: 'Profile Image Studio',
       date: 'Jul 2025 (Currently here)',
