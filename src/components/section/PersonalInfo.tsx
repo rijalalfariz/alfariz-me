@@ -65,7 +65,7 @@ const PersonalInfo: React.FC = () => {
     {
       id: 'exp3',
       company: 'Profile Image Studio',
-      date: 'Jul 2025 (Currently here)',
+      date: 'Jul 2025 - Dec 2025',
       position: 'Full-stack Web Developer',
       details: [
         'Contributed to three ongoing projects, developing responsive web applications using Angular, TypeScript, Next.js, and FastAPI, ensuring alignment with user requirements and recommendations.',
@@ -77,7 +77,7 @@ const PersonalInfo: React.FC = () => {
     {
       id: 'exp4',
       company: 'Cloudetica Solution (Freelance)',
-      date: 'Sep 2025 (Currently here)',
+      date: 'Sep 2025 - Dec 2025',
       position: 'Full-stack Web Developer',
       details: [
         'Developed a construction management system tailored to client requirements and specifications.',
